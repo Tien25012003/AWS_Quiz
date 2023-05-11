@@ -5,6 +5,7 @@ import {
   ScrollView,
   Button,
   Pressable,
+  StyleSheet,
 } from 'react-native';
 import React, {useRef, useEffect, useState, useReducer} from 'react';
 import Rive, {RiveRef, Fit, LoopMode, Direction} from 'rive-react-native';
@@ -126,13 +127,7 @@ const Rating: React.FC = () => {
             ref={StarRef}
             fit={Fit.FitWidth}
           />
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              flexDirection: 'row',
-              marginHorizontal: 20,
-            }}>
+          <View style={styles.star_press}>
             {state.map((s, index) => {
               return (
                 <Pressable
@@ -147,7 +142,7 @@ const Rating: React.FC = () => {
             })}
           </View>
         </View>
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', marginTop: 50}}>
           <Rive
             resourceName="button"
             artboardName="Get Started"
@@ -160,21 +155,26 @@ const Rating: React.FC = () => {
             ref={BtnRef}
             fit={Fit.FitWidth}
           />
-          <Pressable
-            style={{
-              position: 'absolute',
-              top: height * 0.05,
-              left: width * 0.25,
-              width: width * 0.5,
-              height: 80,
-              zIndex: 99,
-            }}
-            onPress={onSubmit}
-          />
+          <Pressable style={styles.submit} onPress={onSubmit} />
         </View>
       </ScrollView>
     </View>
   );
 };
-
+const styles = StyleSheet.create({
+  star_press: {
+    position: 'absolute',
+    top: 0,
+    flexDirection: 'row',
+    marginHorizontal: 20,
+  },
+  submit: {
+    position: 'absolute',
+    top: height * 0.05,
+    left: width * 0.25,
+    width: width * 0.5,
+    height: 80,
+    zIndex: 99,
+  },
+});
 export default Rating;

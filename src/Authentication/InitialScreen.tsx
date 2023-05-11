@@ -4,24 +4,29 @@ import {
   Dimensions,
   Pressable,
   StyleSheet,
-  Animated,
   LayoutAnimation,
   Platform,
   UIManager,
 } from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
 import Rive, {RiveRef, Fit} from 'rive-react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
+import {StackParamList} from '../Navigation/Navigation';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
+type NavigationProps = NativeStackScreenProps<StackParamList, 'InitialScreen'>;
+type Props = {
+  navigation: any;
+};
 const {width, height} = Dimensions.get('screen');
 const MOTION = 'Motion';
-const InitialScreen = () => {
+const InitialScreen = ({navigation}: Props) => {
   const Ref = useRef<RiveRef>(null);
-  const textOpacity = useRef(new Animated.Value(0)).current;
   const [trigger, setTrigger] = useState(false);
   const [numDrag, setNumDrag] = useState(0);
   const [showText, setShowText] = useState(false);
@@ -46,7 +51,9 @@ const InitialScreen = () => {
     setShowText(true);
   };
   useEffect(() => {
-    setTimeout(() => console.log('finish'), 6500);
+    if (trigger === true) {
+      setTimeout(() => navigation.navigate('SignUp'), 8000);
+    }
   }, []);
   return (
     <View
@@ -68,6 +75,9 @@ const InitialScreen = () => {
           }}
           ref={Ref}
           fit={Fit.Cover}
+          onStop={() => console.log('stop')}
+          onPlay={() => console.log('play')}
+          onStateChanged={() => console.log('state')}
         />
       </View>
       <Pressable
@@ -87,7 +97,7 @@ const InitialScreen = () => {
                 fontWeight: 'bold',
                 textAlign: 'center',
               }}>
-              Welcome to AWS
+              Welcome to AWS Quiz
             </Text>
           </View>
         )}

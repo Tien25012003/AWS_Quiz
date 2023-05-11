@@ -71,7 +71,7 @@ const SignUp: React.FC = () => {
     }
   }, [email.length, pass.length]);
   return (
-    <View style={{flex: 1, paddingTop: 20}}>
+    <View style={{flex: 1, paddingTop: 20, backgroundColor: '#fff'}}>
       <ScrollView>
         {screenType !== 1 && (
           <Ionicons

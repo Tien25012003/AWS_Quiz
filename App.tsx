@@ -4,6 +4,7 @@ import Draft from './src/Draft';
 import SignUp from './src/Authentication/SignUp';
 import InitialScreen from './src/Authentication/InitialScreen';
 import Rating from './src/Setting/Rating';
+import Navigation from './src/Navigation/Navigation';
 const App = () => {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
@@ -12,7 +13,8 @@ const App = () => {
         backgroundColor={'transparent'}
         barStyle="dark-content"
       />
-      <Rating />
+      <Navigation />
+      {/* <SignUp /> */}
     </View>
   );
 };
