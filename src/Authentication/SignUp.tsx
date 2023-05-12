@@ -14,10 +14,16 @@ import Rive, {RiveRef, Fit} from 'rive-react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {StackParamList} from '../Navigation/Navigation';
+type NavigationProps = NativeStackNavigationProp<StackParamList, 'SignUp'>;
+type Props = {
+  navigation: NavigationProps;
+};
 const {width, height} = Dimensions.get('screen');
 const STATE_MACHINE = 'State Machine 1';
 const STATE_MACHINE_BIRD = 'State Machine 2';
-const SignUp: React.FC = () => {
+const SignUp = ({navigation}: Props) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [look, setLook] = useState(0);
@@ -52,7 +58,8 @@ const SignUp: React.FC = () => {
       ScrollRef.current?.scrollTo({x: width, y: 0, animated: true});
       Ref.current?.fireState(STATE_MACHINE, 'success');
     } else {
-      console.log('Go to home screen');
+      //console.log('Go to home screen');
+      navigation.navigate('Rating');
     }
   };
   const onBack = () => {

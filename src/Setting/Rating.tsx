@@ -96,7 +96,7 @@ const Rating: React.FC = () => {
     dispatch({type: CLICK, index: index});
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       <ScrollView>
         <View
           style={{

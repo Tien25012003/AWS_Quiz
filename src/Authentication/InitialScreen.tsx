@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
 import Rive, {RiveRef, Fit} from 'rive-react-native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-
+//import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {StackParamList} from '../Navigation/Navigation';
 if (
   Platform.OS === 'android' &&
@@ -19,9 +19,12 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-type NavigationProps = NativeStackScreenProps<StackParamList, 'InitialScreen'>;
+type NavigationProps = NativeStackNavigationProp<
+  StackParamList,
+  'InitialScreen'
+>;
 type Props = {
-  navigation: any;
+  navigation: NavigationProps;
 };
 const {width, height} = Dimensions.get('screen');
 const MOTION = 'Motion';
@@ -54,7 +57,7 @@ const InitialScreen = ({navigation}: Props) => {
     if (trigger === true) {
       setTimeout(() => navigation.navigate('SignUp'), 8000);
     }
-  }, []);
+  }, [trigger]);
   return (
     <View
       style={{

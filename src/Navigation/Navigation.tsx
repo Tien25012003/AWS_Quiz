@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import SignUp from '../Authentication/SignUp';
 import InitialScreen from '../Authentication/InitialScreen';
 import Rating from '../Setting/Rating';
-import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 export type StackParamList = {
   InitialScreen: undefined;
   SignUp: undefined;
