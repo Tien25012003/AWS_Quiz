@@ -2,11 +2,12 @@ import {View, Text, Button, Pressable, Dimensions} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import Rive, {RiveRef, Fit, Alignment} from 'rive-react-native';
 import Animated, {
+  interpolate,
   useAnimatedStyle,
   useSharedValue,
+  withRepeat,
   withTiming,
 } from 'react-native-reanimated';
-import {Svg} from 'react-native-svg';
 const {width: WD} = Dimensions.get('screen');
 const index = () => {
   const runRef = useRef<RiveRef>(null);
@@ -16,6 +17,10 @@ const index = () => {
   const animatedTextOpacity = useSharedValue(1);
   const animatedViewOpacity = useSharedValue(0);
   const animatedViewScale = useSharedValue(1);
+  const animatedRotate_1 = useSharedValue(0);
+  const animatedRotate_2 = useSharedValue(0);
+  const animatedScale = useSharedValue(0);
+  const animatedOpacity = useSharedValue(1);
   const animatedViewStyle = useAnimatedStyle(() => {
     return {
       width: animatedViewWidth.value,
@@ -29,21 +34,44 @@ const index = () => {
       opacity: animatedTextOpacity.value,
     };
   });
-  const animatedBorderStyle = useAnimatedStyle(() => {
+  const animatedBorderStyle_1 = useAnimatedStyle(() => {
     return {
       opacity: animatedViewOpacity.value,
+      transform: [
+        {rotate: `${interpolate(animatedRotate_1.value, [0, 1], [0, 360])}deg`},
+      ],
     };
   });
-
+  const animatedBorderStyle_2 = useAnimatedStyle(() => {
+    return {
+      opacity: animatedViewOpacity.value,
+      transform: [
+        {rotate: `${interpolate(animatedRotate_2.value, [0, 1], [360, 0])}deg`},
+      ],
+    };
+  });
+  const animatedOpacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: animatedOpacity.value,
+    };
+  });
+  const animatedScaleStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{scale: interpolate(animatedScale.value, [0, 1], [1, 30])}],
+    };
+  });
   const handlePlay = () => {
     animatedViewHeight.value = withTiming(55);
     animatedViewWidth.value = withTiming(55);
     animatedViewRadius.value = withTiming(60);
     animatedViewOpacity.value = withTiming(1);
     animatedTextOpacity.value = withTiming(0);
-    // setTimeout(() => {
-    //   animatedViewScale.value = withTiming(20);
-    // }, 2000);
+    animatedRotate_1.value = withRepeat(withTiming(1), -1, true);
+    animatedRotate_2.value = withRepeat(withTiming(1), -1, true);
+    setTimeout(() => {
+      animatedOpacity.value = 0;
+      animatedScale.value = withTiming(1, {duration: 3000});
+    }, 5000);
   };
 
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -69,9 +97,8 @@ const index = () => {
             position: 'absolute',
             bottom: 37.5,
             alignSelf: 'center',
-            transform: [{rotate: '-50deg'}],
           },
-          animatedBorderStyle,
+          animatedBorderStyle_1,
         ]}
       />
       <Animated.View
@@ -87,7 +114,7 @@ const index = () => {
             bottom: 42.5,
             alignSelf: 'center',
           },
-          animatedBorderStyle,
+          animatedBorderStyle_2,
         ]}
       />
       <AnimatedPressable
@@ -107,6 +134,7 @@ const index = () => {
             paddingHorizontal: 10,
           },
           animatedViewStyle,
+          animatedScaleStyle,
         ]}>
         <Animated.Text
           style={[
@@ -121,19 +149,21 @@ const index = () => {
           ]}>
           Start Quiz!
         </Animated.Text>
-        <Rive
-          ref={runRef}
-          resourceName="rocket_demo"
-          autoplay={true}
-          fit={Fit.None}
-          style={{
-            width: WD * 0.6,
-            height: 70,
-          }}
-          alignment={Alignment.Center}
-          stateMachineName="State Machine 1"
-          artboardName="New Artboard"
-        />
+        <Animated.View style={animatedOpacityStyle}>
+          <Rive
+            ref={runRef}
+            resourceName="rocket_demo"
+            autoplay={true}
+            fit={Fit.None}
+            style={{
+              width: WD * 0.6,
+              height: 70,
+            }}
+            alignment={Alignment.Center}
+            stateMachineName="State Machine 1"
+            artboardName="New Artboard"
+          />
+        </Animated.View>
       </AnimatedPressable>
     </View>
   );
