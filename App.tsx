@@ -1,20 +1,14 @@
 import {View, Text, StatusBar} from 'react-native';
 import React from 'react';
-import Home from './src/Home/index';
-import Quiz from './src/Quiz';
+import Draft from './src/Draft';
+import SignUp from './src/Authentication/SignUp';
+import InitialScreen from './src/Authentication/InitialScreen';
+import Rating from './src/Setting/Rating';
+import Navigation from './src/Navigation/Navigation';
 const App = () => {
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: 'white',
-      }}>
-      <StatusBar
-        translucent
-        barStyle={'light-content'}
-        backgroundColor={'transparent'}
-      />
-      <Quiz />
+    <View>
+      <Text>App</Text>
     </View>
   );
 };
