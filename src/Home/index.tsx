@@ -1,6 +1,8 @@
 import {View, Text, Button, Pressable, Dimensions} from 'react-native';
 import React, {useRef, useEffect} from 'react';
 import Rive, {RiveRef, Fit, Alignment} from 'rive-react-native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useNavigation} from '@react-navigation/native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -8,8 +10,11 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+import {StackParamList} from '../Navigation/Navigation';
 const {width: WD} = Dimensions.get('screen');
-const index = () => {
+type Props = NativeStackScreenProps<StackParamList, 'Home'>;
+
+const Index = ({navigation, route}: Props) => {
   const runRef = useRef<RiveRef>(null);
   const animatedViewWidth = useSharedValue(WD * 0.6);
   const animatedViewHeight = useSharedValue(70);
@@ -72,6 +77,9 @@ const index = () => {
       animatedOpacity.value = 0;
       animatedScale.value = withTiming(1, {duration: 3000});
     }, 5000);
+    setTimeout(() => {
+      navigation.navigate('Quiz');
+    }, 8000);
   };
 
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
@@ -169,4 +177,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

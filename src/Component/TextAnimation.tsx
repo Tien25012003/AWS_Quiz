@@ -10,6 +10,10 @@ const TextAnimation = ({text}: Props) => {
 
   const [number, setNumber] = useState(0);
   useEffect(() => {
+    setSentences([]);
+    setNumber(0);
+  }, [text]);
+  useEffect(() => {
     setTimeout(() => {
       if (number < listTxt.length) {
         setSentences([...sentences, listTxt[number]]);
@@ -19,11 +23,7 @@ const TextAnimation = ({text}: Props) => {
     }, 200);
   }, [number]);
   return (
-    <View
-      style={{
-        flexWrap: 'wrap',
-        maxWidth: WD * 0.5,
-      }}>
+    <View style={{width: WD * 0.5, marginLeft: 20, marginTop: 5}}>
       <Text
         style={{
           fontSize: 16,
