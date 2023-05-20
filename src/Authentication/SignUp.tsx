@@ -8,6 +8,8 @@ import {
   StyleSheet,
   Pressable,
   Image,
+  Animated,
+  Easing,
 } from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
 import Rive, {RiveRef, Fit} from 'rive-react-native';
@@ -23,6 +25,7 @@ type Props = {
 const {width, height} = Dimensions.get('screen');
 const STATE_MACHINE = 'State Machine 1';
 const STATE_MACHINE_BIRD = 'State Machine 2';
+const TEXT = 'Maybe you forgot to provide your email or password to sign up!';
 const SignUp = ({navigation}: Props) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
@@ -31,6 +34,10 @@ const SignUp = ({navigation}: Props) => {
   const [type, setType] = useState<Number>(-1);
   const [code, setCode] = useState('');
   const [screenType, setScreenType] = useState(1);
+  const ArrayText = TEXT.split(' ');
+  const animatedRef = ArrayText.map(
+    (t, index) => useRef(new Animated.Value(0)).current,
+  );
   const Ref = useRef<RiveRef>(null);
   const BtnRef = useRef<RiveRef>(null);
   const ScrollRef = useRef<ScrollView>(null);
@@ -77,6 +84,19 @@ const SignUp = ({navigation}: Props) => {
       setLook(pass.length * 5);
     }
   }, [email.length, pass.length]);
+  useEffect(() => {
+    if (screenType === 3) {
+      const animations = animatedRef.map((value, index) => {
+        return Animated.timing(value, {
+          toValue: 1,
+          duration: 100,
+          useNativeDriver: true,
+          easing: Easing.bounce,
+        });
+      });
+      Animated.stagger(200, animations).start();
+    }
+  }, [screenType]);
   return (
     <View style={{flex: 1, paddingTop: 20, backgroundColor: '#fff'}}>
       <ScrollView>
@@ -99,10 +119,22 @@ const SignUp = ({navigation}: Props) => {
                     your email here!
                   </Text>
                 ) : (
-                  <Text>
-                    Maybe you forgot to provide your email or password to sign
-                    up
-                  </Text>
+                  // <Text>
+                  //   We have send you an email. Please confirm the OTP code in
+                  //   your email here!
+                  // </Text>
+                  <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                    {ArrayText.map((txt: string, index: number) => {
+                      return (
+                        <Animated.Text
+                          key={index}
+                          style={{opacity: animatedRef[index]}}>
+                          {txt}
+                          {'\t'}
+                        </Animated.Text>
+                      );
+                    })}
+                  </View>
                 )}
                 <View style={styles.square} />
               </View>

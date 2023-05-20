@@ -14,7 +14,6 @@ const App = () => {
         barStyle="dark-content"
       />
       <Navigation />
-      {/* <SignUp /> */}
     </View>
   );
 };
