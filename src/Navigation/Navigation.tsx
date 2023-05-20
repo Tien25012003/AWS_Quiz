@@ -3,8 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import SignUp from '../Authentication/SignUp';
 import InitialScreen from '../Authentication/InitialScreen';
 import Rating from '../Setting/Rating';
-import Quiz from '../Quiz/Index';
-import Home from '../Home/Index';
+import Quiz from '../Quiz/index';
+import Home from '../Home/index';
 export type StackParamList = {
   InitialScreen: undefined;
   SignUp: undefined;
@@ -18,10 +18,10 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {/* <Stack.Screen name={'InitialScreen'} component={InitialScreen} />
-        <Stack.Screen name={'SignUp'} component={SignUp} /> */}
-        {/* <Stack.Screen name={'Rating'} component={Rating} /> */}
-        <Stack.Screen name={'Home'} component={Home} />
+        <Stack.Screen name={'InitialScreen'} component={InitialScreen} />
+        <Stack.Screen name={'SignUp'} component={SignUp} />
+        <Stack.Screen name={'Rating'} component={Rating} />
+        {/* <Stack.Screen name={'Home'} component={Home} />
         <Stack.Screen
           name={'Quiz'}
           component={Quiz}
@@ -30,7 +30,7 @@ const Navigation = () => {
             animationDuration: 3000,
             animationTypeForReplace: 'push',
           }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

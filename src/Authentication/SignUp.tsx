@@ -86,8 +86,8 @@ const SignUp = ({navigation}: Props) => {
   }, [email.length, pass.length]);
   useEffect(() => {
     if (screenType === 3) {
-      const animations = animatedRef.map((value, index) => {
-        return Animated.timing(value, {
+      const animations = ArrayText.map((value, index) => {
+        return Animated.timing(animatedRef[index], {
           toValue: 1,
           duration: 100,
           useNativeDriver: true,
@@ -129,8 +129,7 @@ const SignUp = ({navigation}: Props) => {
                         <Animated.Text
                           key={index}
                           style={{opacity: animatedRef[index]}}>
-                          {txt}
-                          {'\t'}
+                          {`${txt} `}
                         </Animated.Text>
                       );
                     })}

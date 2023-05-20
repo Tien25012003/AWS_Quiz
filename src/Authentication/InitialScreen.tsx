@@ -66,7 +66,7 @@ const InitialScreen = ({navigation}: Props) => {
         justifyContent: 'center',
         backgroundColor: '#20062f',
       }}>
-      <View style={{height: height * 0.8}}>
+      <View style={{height: height}}>
         <Rive
           resourceName="pull_to_refresh"
           artboardName="New Artboard"
