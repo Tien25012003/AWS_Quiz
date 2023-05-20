@@ -30,7 +30,7 @@ const Navigation = () => {
             animationDuration: 3000,
             animationTypeForReplace: 'push',
           }}
-        /> */}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
