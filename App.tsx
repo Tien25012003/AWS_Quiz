@@ -6,6 +6,7 @@ import InitialScreen from './src/Authentication/InitialScreen';
 import Rating from './src/Setting/Rating';
 import Navigation from './src/Navigation/Navigation';
 import Quiz from './src/Quiz/Index';
+import Home from './src/Home/Index';
 const App = () => {
   return (
     <View
@@ -13,8 +14,9 @@ const App = () => {
         flex: 1,
         backgroundColor: 'white',
       }}>
-      {/* <StatusBar translucent backgroundColor={'transparent'} />
-      <Navigation /> */}
+      <StatusBar translucent backgroundColor={'transparent'} />
+      {/* <Navigation /> */}
+      {/* <Quiz /> */}
       <Quiz />
     </View>
   );

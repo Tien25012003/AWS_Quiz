@@ -1,5 +1,5 @@
 import {View, Text, Dimensions} from 'react-native';
-import React from 'react';
+import React, {useCallback} from 'react';
 import Svg, {Path} from 'react-native-svg';
 import TextAnimation from './TextAnimation';
 const {width: WD, height: H} = Dimensions.get('screen');
