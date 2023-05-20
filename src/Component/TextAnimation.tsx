@@ -2,9 +2,11 @@ import {View, Text, Dimensions} from 'react-native';
 import React, {useEffect, useRef, useCallback, useState, useMemo} from 'react';
 type Props = {
   text: string;
+  width?: number;
+  marginLeft?: number;
 };
 const {width: WD} = Dimensions.get('screen');
-const TextAnimation = ({text}: Props) => {
+const TextAnimation = ({text, width = WD * 0.5, marginLeft = 20}: Props) => {
   const listTxt = useMemo(() => text.split(' '), [text]);
   let clear = useMemo(() => false, [text]);
   const [sentences, setSentences] = useState<string[]>([]);
@@ -23,7 +25,7 @@ const TextAnimation = ({text}: Props) => {
   }, [text]);
 
   return (
-    <View style={{width: WD * 0.5, marginLeft: 20, marginTop: 5}}>
+    <View style={{width: width, marginLeft, marginTop: 5}}>
       <Text
         style={{
           fontSize: 16,

@@ -14,10 +14,14 @@ const App = () => {
         flex: 1,
         backgroundColor: 'white',
       }}>
-      <StatusBar translucent backgroundColor={'transparent'} />
+      <StatusBar
+        translucent
+        backgroundColor={'transparent'}
+        barStyle={'dark-content'}
+      />
       {/* <Navigation /> */}
-      {/* <Quiz /> */}
-      <Quiz />
+      {/* <Rating /> */}
+      <SignUp />
     </View>
   );
 };
