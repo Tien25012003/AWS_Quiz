@@ -55,7 +55,7 @@ const InitialScreen = ({navigation}: Props) => {
   };
   useEffect(() => {
     if (trigger === true) {
-      setTimeout(() => navigation.navigate('SignUp'), 8000);
+      setTimeout(() => navigation.navigate('SignUp'), 7500);
     }
   }, [trigger]);
   return (
