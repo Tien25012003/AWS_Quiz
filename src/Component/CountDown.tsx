@@ -1,12 +1,13 @@
 import {View, Text} from 'react-native';
 import React, {useEffect} from 'react';
-import {useState} from 'react';
+import {useState, useMemo} from 'react';
 import Rive from 'rive-react-native';
 interface Props {
+  text: string;
   time: number;
   setTime: Function;
 }
-const CountDown = ({time, setTime}: Props) => {
+const CountDown = ({text, time, setTime}: Props) => {
   useEffect(() => {
     setTimeout(() => {
       if (time > 0) setTime(time - 1);
@@ -18,7 +19,7 @@ const CountDown = ({time, setTime}: Props) => {
         fontSize: 20,
         color: 'white',
       }}>
-      {time}
+      {Math.floor(time / 60)} : {time % 60 < 10 ? `0${time % 60}` : time % 60}
     </Text>
   );
 };

@@ -5,16 +5,19 @@ import SignUp from './src/Authentication/SignUp';
 import InitialScreen from './src/Authentication/InitialScreen';
 import Rating from './src/Setting/Rating';
 import Navigation from './src/Navigation/Navigation';
-import Quiz from './src/Quiz/index';
+import Quiz from './src/Quiz/Index';
+import Home from './src/Home/Index';
 const App = () => {
   return (
-    <View style={{flex: 1, backgroundColor: '#fff'}}>
-      <StatusBar
-        translucent
-        backgroundColor={'transparent'}
-        barStyle="dark-content"
-      />
-      <Navigation />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: 'white',
+      }}>
+      <StatusBar translucent backgroundColor={'transparent'} />
+      {/* <Navigation /> */}
+      {/* <Quiz /> */}
+      <Quiz />
     </View>
   );
 };
