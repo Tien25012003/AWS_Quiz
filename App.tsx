@@ -5,6 +5,7 @@ import SignUp from './src/Authentication/SignUp';
 import InitialScreen from './src/Authentication/InitialScreen';
 import Rating from './src/Setting/Rating';
 import Navigation from './src/Navigation/Navigation';
+import Quiz from './src/Quiz/Index';
 const App = () => {
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
