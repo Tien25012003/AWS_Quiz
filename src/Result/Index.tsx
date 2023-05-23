@@ -1,14 +1,53 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, Dimensions, StatusBar} from 'react-native';
 import React from 'react';
-
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {ScrollView} from 'react-native';
+const {width: WC, height: HC} = Dimensions.get('screen');
+const sortLevelRank = [
+  {
+    image:
+      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
+    name: 'Doan Tan Khang',
+    score: 5555,
+    rank: 1,
+  },
+  {
+    image:
+      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
+    name: 'Doan Tan Khang',
+    score: 5555,
+    rank: 2,
+  },
+  {
+    image:
+      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
+    name: 'Doan Tan Khang',
+    score: 5555,
+    rank: 3,
+  },
+  {
+    image:
+      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
+    name: 'Doan Tan Khang',
+    score: 5555,
+    rank: 4,
+  },
+  {
+    image:
+      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
+    name: 'Doan Tan Khang',
+    score: 5555,
+    rank: 5,
+  },
+];
 const Index = () => {
   return (
-    <View
+    <ScrollView
       style={{
         flex: 1,
         backgroundColor: '#227CE6',
-        justifyContent: 'center',
-        alignItems: 'center',
       }}>
       {/*Header */}
       <View
@@ -19,6 +58,8 @@ const Index = () => {
           borderRadius: 10,
           justifyContent: 'center',
           alignItems: 'center',
+          marginTop: StatusBar.currentHeight && 0 + 100,
+          alignSelf: 'center',
         }}>
         <View
           style={{
@@ -53,31 +94,231 @@ const Index = () => {
         </Text>
         <View
           style={{
-            width: '80%',
-            paddingHorizontal: 1,
-            paddingVertical: 1,
-            flexDirection: 'row',
+            width: WC * 0.8,
             flexWrap: 'wrap',
-            backgroundColor: 'black',
+            backgroundColor: '#227CE6',
+            padding: 1,
+            marginTop: 15,
+            gap: 1,
           }}>
           <View
             style={{
-              flex: 1,
-              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 1,
             }}>
-            <Text>Core</Text>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'white',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 10,
+                  paddingHorizontal: 10,
+                }}>
+                <AntDesign name="checkcircle" color={'#12D801'} size={35} />
+                <View
+                  style={{
+                    marginLeft: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    Correct
+                  </Text>
+                  <Text>8/10</Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 10,
+                  paddingHorizontal: 10,
+                }}>
+                <MaterialCommunityIcons
+                  name="timer-sand"
+                  color={'#FF0000'}
+                  size={35}
+                />
+                <View
+                  style={{
+                    marginLeft: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    Time
+                  </Text>
+                  <Text>4:00</Text>
+                </View>
+              </View>
+            </View>
           </View>
-
           <View
             style={{
-              flex: 1,
-              backgroundColor: 'white',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: 1,
+              width: '100%',
             }}>
-            <Text>Core</Text>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingVertical: 10,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <AntDesign name="gift" color={'#FC055E'} size={35} />
+                <View
+                  style={{
+                    marginLeft: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    Score
+                  </Text>
+                  <Text>124</Text>
+                </View>
+              </View>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: 'white',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingVertical: 10,
+              }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                }}>
+                <Ionicons name="medal-outline" color={'#E68022'} size={35} />
+                <View
+                  style={{
+                    marginLeft: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: 'black',
+                    }}>
+                    Rank
+                  </Text>
+                  <Text>15</Text>
+                </View>
+              </View>
+            </View>
           </View>
         </View>
       </View>
-    </View>
+      {/*Leader Broad */}
+      <Text
+        style={{
+          fontSize: 24,
+          color: 'white',
+          margin: 20,
+          alignSelf: 'center',
+        }}>
+        LEADERBOARD
+      </Text>
+
+      <View
+        style={{
+          alignSelf: 'center',
+          width: WC * 0.9,
+        }}>
+        {sortLevelRank.map((item, index) => {
+          let color = '#227CE6';
+          if (index === 0) color = '#FFB800';
+          if (index === 1) color = '#939393';
+          if (index === 2) color = '#D26F37';
+          return (
+            <View
+              key={index}
+              style={{
+                width: '100%',
+                paddingVertical: 10,
+                backgroundColor: 'white',
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingHorizontal: 10,
+                marginVertical: 10,
+                borderRadius: 10,
+              }}>
+              <Image
+                source={{uri: item.image}}
+                style={{width: 80, height: 80, resizeMode: 'contain'}}
+              />
+              <View>
+                <Text
+                  style={{
+                    color: 'black',
+                    fontSize: 16,
+                    fontWeight: '600',
+                  }}>
+                  {item.name}
+                </Text>
+                <Text style={{fontSize: 14, color: 'black'}}>
+                  Score: {item.score}
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                {index <= 2 && (
+                  <Ionicons name="medal-outline" color={color} size={35} />
+                )}
+                <Text
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 17,
+                    color: color,
+                  }}>
+                  {item.rank}
+                </Text>
+              </View>
+            </View>
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 };
 
