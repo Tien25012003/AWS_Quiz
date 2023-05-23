@@ -1,7 +1,7 @@
 {
   "version": 1,
   "serviceConfiguration": {
-    "apiName": "AWSQuiz",
+    "apiName": "AWSQUIZ",
     "serviceName": "AppSync",
     "defaultAuthType": {
       "mode": "API_KEY",

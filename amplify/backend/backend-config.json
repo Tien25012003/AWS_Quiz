@@ -1,6 +1,6 @@
 {
   "api": {
-    "AWSQuiz": {
+    "AWSQUIZ": {
       "dependsOn": [],
       "output": {
         "authConfig": {
