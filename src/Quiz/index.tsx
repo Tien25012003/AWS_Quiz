@@ -15,6 +15,12 @@ import Message from '../Component/Message';
 import Rive, {Alignment, Fit, RiveRef} from 'rive-react-native';
 import CountDown from '../Component/CountDown';
 import {useEffect} from 'react';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {StackParamList} from '../Navigation/Navigation';
+import {DataStore} from 'aws-amplify';
+import {USER} from '../models';
+// import '@azure/core-asynciterator-polyfill';
 const {width, height} = Dimensions.get('screen');
 const Answer = ['Basketball', 'Football', 'I don’t know!!!', 'Hmmm'];
 const Question = [
@@ -107,7 +113,13 @@ interface Answer {
   item: string;
   index: number;
 }
-const Index = () => {
+type Props = NativeStackScreenProps<StackParamList, 'Quiz'>;
+const Index = ({navigation}: Props) => {
+  const getDate = async () => {
+    console.log('OK');
+    const users = await DataStore.query(USER);
+    console.log(users);
+  };
   const alarm = useRef<RiveRef>(null);
   const gift = useRef<RiveRef>(null);
   const character = useRef<RiveRef>(null);
@@ -145,7 +157,6 @@ const Index = () => {
       <Pressable
         onPress={() => {
           let timeGap = timeStart - time;
-          console.log(Question[page].result === item);
           if (Question[page].result === item) {
             createMark(timeGap);
           }
@@ -154,6 +165,7 @@ const Index = () => {
             setPage(page + 1);
           } else {
             console.log('result', mark);
+            navigation.navigate('Result');
           }
           setTimeStart(time);
         }}
@@ -308,12 +320,13 @@ const Index = () => {
           />
         </View>
         <Pressable
-          onPress={() => {
-            if (page < Question.length - 1) {
-              setQuestion(Question[page + 1].question);
-              setPage(page + 1);
-            }
-          }}
+          // onPress={() => {
+          //   if (page < Question.length - 1) {
+          //     setQuestion(Question[page + 1].question);
+          //     setPage(page + 1);
+          //   }
+          // }}
+          onPress={getDate}
           style={{
             width: 200,
             height: 60,

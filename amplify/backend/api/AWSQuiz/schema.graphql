@@ -1,0 +1,7 @@
+type USER @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  score: Int
+  time: Int
+  numberCorrect: Int
+}

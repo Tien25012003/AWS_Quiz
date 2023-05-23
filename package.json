@@ -10,13 +10,21 @@
     "test": "jest"
   },
   "dependencies": {
+    "@aws-amplify/datastore-storage-adapter": "^2.0.32",
+    "@azure/core-asynciterator-polyfill": "^1.0.2",
+    "@react-native-async-storage/async-storage": "^1.18.1",
+    "@react-native-community/netinfo": "^9.3.10",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "amazon-cognito-identity-js": "^6.2.0",
+    "aws-amplify": "^5.2.2",
+    "core-js": "^3.30.2",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-reanimated": "^3.1.0",
     "react-native-safe-area-context": "^4.5.2",
     "react-native-screens": "^3.20.0",
+    "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^9.2.0",
     "rive-react-native": "^4.0.3"

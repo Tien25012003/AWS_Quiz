@@ -135,7 +135,7 @@ const Index = () => {
                     }}>
                     Correct
                   </Text>
-                  <Text>8/10</Text>
+                  <Text style={{color: 'gray'}}>8/10</Text>
                 </View>
               </View>
             </View>
@@ -169,7 +169,7 @@ const Index = () => {
                     }}>
                     Time
                   </Text>
-                  <Text>4:00</Text>
+                  <Text style={{color: 'gray'}}>4:00</Text>
                 </View>
               </View>
             </View>
@@ -208,7 +208,7 @@ const Index = () => {
                     }}>
                     Score
                   </Text>
-                  <Text>124</Text>
+                  <Text style={{color: 'gray'}}>124</Text>
                 </View>
               </View>
             </View>
@@ -238,7 +238,7 @@ const Index = () => {
                     }}>
                     Rank
                   </Text>
-                  <Text>15</Text>
+                  <Text style={{color: 'gray'}}>15</Text>
                 </View>
               </View>
             </View>
