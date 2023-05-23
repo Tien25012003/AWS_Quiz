@@ -12,6 +12,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import Rive, {RiveRef, Fit} from 'rive-react-native';
 //import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamList} from '../Navigation/Navigation';
 if (
   Platform.OS === 'android' &&
@@ -19,13 +20,8 @@ if (
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
-type NavigationProps = NativeStackNavigationProp<
-  StackParamList,
-  'InitialScreen'
->;
-type Props = {
-  navigation: NavigationProps;
-};
+type Props = NativeStackScreenProps<StackParamList, 'InitialScreen'>;
+
 const {width, height} = Dimensions.get('screen');
 const MOTION = 'Motion';
 const InitialScreen = ({navigation}: Props) => {
@@ -66,7 +62,7 @@ const InitialScreen = ({navigation}: Props) => {
         justifyContent: 'center',
         backgroundColor: '#20062f',
       }}>
-      <View style={{height: height * 0.8}}>
+      <View style={{height: height}}>
         <Rive
           resourceName="pull_to_refresh"
           artboardName="New Artboard"

@@ -3,8 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import SignUp from '../Authentication/SignUp';
 import InitialScreen from '../Authentication/InitialScreen';
 import Rating from '../Setting/Rating';
-import Quiz from '../Quiz/Index';
-import Home from '../Home/Index';
+import Quiz from '../Quiz/index';
+import Home from '../Home/index';
 export type StackParamList = {
   InitialScreen: undefined;
   SignUp: undefined;

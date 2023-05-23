@@ -5,11 +5,8 @@ import {
   Dimensions,
   ScrollView,
   TextInput,
-  StyleSheet,
   Pressable,
   Image,
-  Animated,
-  Easing,
 } from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
 import Rive, {RiveRef, Fit} from 'rive-react-native';
@@ -17,6 +14,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import TextAnimation from '../Component/TextAnimation';
+import styles from './styles';
 import {StackParamList} from '../Navigation/Navigation';
 type NavigationProps = NativeStackNavigationProp<StackParamList, 'SignUp'>;
 type Props = {
@@ -25,8 +24,12 @@ type Props = {
 const {width, height} = Dimensions.get('screen');
 const STATE_MACHINE = 'State Machine 1';
 const STATE_MACHINE_BIRD = 'State Machine 2';
-const TEXT = 'Maybe you forgot to provide your email or password to sign up!';
-const SignUp = ({navigation}: Props) => {
+const TEXT_EMPTY =
+  'Maybe you forgot to provide your email or password to sign up!';
+const SEND_OTP =
+  ' We have send you an email. Please confirm the OTP code in your email here!';
+//const SignUp = ({navigation}: Props) => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [look, setLook] = useState(0);
@@ -34,10 +37,6 @@ const SignUp = ({navigation}: Props) => {
   const [type, setType] = useState<Number>(-1);
   const [code, setCode] = useState('');
   const [screenType, setScreenType] = useState(1);
-  const ArrayText = TEXT.split(' ');
-  const animatedRef = ArrayText.map(
-    (t, index) => useRef(new Animated.Value(0)).current,
-  );
   const Ref = useRef<RiveRef>(null);
   const BtnRef = useRef<RiveRef>(null);
   const ScrollRef = useRef<ScrollView>(null);
@@ -66,7 +65,7 @@ const SignUp = ({navigation}: Props) => {
       Ref.current?.fireState(STATE_MACHINE, 'success');
     } else {
       //console.log('Go to home screen');
-      navigation.navigate('Rating');
+      //navigation.navigate('Rating');
     }
   };
   const onBack = () => {
@@ -83,58 +82,45 @@ const SignUp = ({navigation}: Props) => {
     if (type === 2) {
       setLook(pass.length * 5);
     }
-  }, [email.length, pass.length]);
-  useEffect(() => {
-    if (screenType === 3) {
-      const animations = animatedRef.map((value, index) => {
-        return Animated.timing(value, {
-          toValue: 1,
-          duration: 100,
-          useNativeDriver: true,
-          easing: Easing.bounce,
-        });
-      });
-      Animated.stagger(200, animations).start();
+    if (type === 3) {
+      setLook(code.length * 5);
     }
-  }, [screenType]);
+  }, [email.length, pass.length, code.length]);
   return (
     <View style={{flex: 1, paddingTop: 20, backgroundColor: '#fff'}}>
       <ScrollView>
-        {screenType !== 1 && (
-          <Ionicons
-            name="arrow-back"
-            size={30}
-            color={'grey'}
-            style={{marginLeft: 20, marginTop: 10, marginBottom: -20}}
+        {screenType === 2 && (
+          <Pressable
             onPress={onBack}
-          />
+            hitSlop={20}
+            style={{position: 'absolute', zIndex: 99}}>
+            <Ionicons
+              name="arrow-back"
+              size={30}
+              color={'grey'}
+              style={{
+                marginLeft: 20,
+                marginTop: 30,
+              }}
+            />
+          </Pressable>
         )}
-        <View style={{alignItems: 'center'}}>
+        <View style={{alignItems: 'center', zIndex: 1, marginTop: 30}}>
           {screenType !== 1 && (
             <View style={{position: 'absolute', top: StatusBar.currentHeight}}>
               <View style={styles.chatbox}>
                 {screenType === 2 ? (
-                  <Text>
-                    We have send you an email. Please confirm the OTP code in
-                    your email here!
-                  </Text>
+                  <TextAnimation
+                    text={SEND_OTP}
+                    width={width * 0.8}
+                    marginLeft={5}
+                  />
                 ) : (
-                  // <Text>
-                  //   We have send you an email. Please confirm the OTP code in
-                  //   your email here!
-                  // </Text>
-                  <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
-                    {ArrayText.map((txt: string, index: number) => {
-                      return (
-                        <Animated.Text
-                          key={index}
-                          style={{opacity: animatedRef[index]}}>
-                          {txt}
-                          {'\t'}
-                        </Animated.Text>
-                      );
-                    })}
-                  </View>
+                  <TextAnimation
+                    text={TEXT_EMPTY}
+                    width={width * 0.8}
+                    marginLeft={5}
+                  />
                 )}
                 <View style={styles.square} />
               </View>
@@ -162,7 +148,11 @@ const SignUp = ({navigation}: Props) => {
             marginTop: -2,
           }}
         />
-        <ScrollView horizontal ref={ScrollRef} scrollEnabled={false}>
+        <ScrollView
+          horizontal
+          ref={ScrollRef}
+          scrollEnabled={false}
+          showsHorizontalScrollIndicator={false}>
           <View style={{width}}>
             <View style={{alignItems: 'center'}}>
               <View style={styles.row}>
@@ -216,7 +206,13 @@ const SignUp = ({navigation}: Props) => {
                 ref={BtnRef}
                 fit={Fit.FitWidth}
               />
-              <Pressable style={styles.press} onPress={onPressBtn} />
+              <Pressable
+                style={[
+                  styles.press,
+                  {width: width * 0.5, height: height * 0.1},
+                ]}
+                onPress={onPressBtn}
+              />
             </View>
             <View style={styles.or}>
               <View
@@ -269,7 +265,10 @@ const SignUp = ({navigation}: Props) => {
                   placeholder={'Code'}
                   placeholderTextColor={'hsl(0,0%,80%)'}
                   secureTextEntry={security}
-                  onFocus={onLookDown}
+                  onFocus={() => {
+                    onLookDown();
+                    setType(3);
+                  }}
                   onBlur={onLookUp}
                 />
               </View>
@@ -295,52 +294,5 @@ const SignUp = ({navigation}: Props) => {
     </View>
   );
 };
-const styles = StyleSheet.create({
-  row: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    width: '80%',
-    borderWidth: 1,
-    borderRadius: 10,
-    borderColor: 'grey',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    marginBottom: 20,
-  },
-  press: {
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    width: width * 0.5,
-    height: height * 0.1,
-    zIndex: 99,
-  },
-  or: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  circle: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 100,
-  },
-  chatbox: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 10,
-    backgroundColor: 'hsl(0,0%,80%)',
-    marginHorizontal: 10,
-  },
-  square: {
-    position: 'absolute',
-    bottom: -10,
-    width: 20,
-    height: 20,
-    backgroundColor: 'hsl(0,0%,80%)',
-    left: 20,
-    transform: [{rotate: '45deg'}],
-  },
-});
+
 export default SignUp;
