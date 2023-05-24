@@ -55,20 +55,17 @@ const SignUp = ({navigation}: Props) => {
     setType(-1);
   };
   const onPressBtn = async () => {
+    if (email === '' || pass === '') {
+      Ref.current?.fireState(STATE_MACHINE, 'fail');
+      setError(3);
+      return;
+    }
     if (screenType === 1 || screenType === 3) {
-      if (email === '' || pass === '') {
-        Ref.current?.fireState(STATE_MACHINE, 'fail');
-        setScreenType(3);
-        return;
-      }
       if (pass.length < 7) {
         Ref.current?.fireState(STATE_MACHINE, 'fail');
         setError(0);
         return;
       }
-      setError(-1);
-      setScreenType(2);
-      ScrollRef.current?.scrollTo({x: width, y: 0, animated: true});
       await Auth.signUp({
         username: email,
         password: pass,
@@ -81,10 +78,11 @@ const SignUp = ({navigation}: Props) => {
           ScrollRef.current?.scrollTo({x: width, y: 0, animated: true});
           Ref.current?.fireState(STATE_MACHINE, 'success');
         })
-        .catch(() => setError(2));
+        .catch(() => {
+          setError(1);
+          Ref.current?.fireState(STATE_MACHINE, 'fail');
+        });
     } else {
-      //console.log('Go to home screen');
-      //console.log('press');
       if (code === '') {
         setError(2);
         return;
@@ -93,14 +91,15 @@ const SignUp = ({navigation}: Props) => {
         .then(() => {
           navigation.navigate('Home');
         })
-        .catch(e => console.log(e));
-
-      //navigation.navigate('Rating');
+        .catch(() => setError(2));
     }
   };
   const onBack = () => {
     ScrollRef.current?.scrollTo({x: -width, y: 0, animated: true});
     setScreenType(1);
+  };
+  const onResend = async () => {
+    await Auth.resendSignUp(email).then(() => console.log('resend'));
   };
   useEffect(() => {
     Ref.current?.setInputState(STATE_MACHINE, 'Look', look);
@@ -136,16 +135,17 @@ const SignUp = ({navigation}: Props) => {
           </Pressable>
         )}
         <View style={{alignItems: 'center', zIndex: 1, marginTop: 30}}>
-          {screenType !== 1 && (
+          {(screenType === 2 || error === 3) && (
             <View style={{position: 'absolute', top: StatusBar.currentHeight}}>
               <View style={styles.chatbox}>
-                {screenType === 2 ? (
+                {screenType === 2 && (
                   <TextAnimation
                     text={SEND_OTP}
                     width={width * 0.8}
                     marginLeft={5}
                   />
-                ) : (
+                )}
+                {error === 3 && (
                   <TextAnimation
                     text={TEXT_EMPTY}
                     width={width * 0.8}
@@ -288,7 +288,7 @@ const SignUp = ({navigation}: Props) => {
                   {borderColor: error === 2 ? 'red' : 'grey'},
                 ]}>
                 <TextInput
-                  style={{width: '100%', color: '#000'}}
+                  style={{width: '90%', color: '#000'}}
                   defaultValue={code}
                   onChangeText={setCode}
                   placeholder={'Code'}
@@ -299,26 +299,50 @@ const SignUp = ({navigation}: Props) => {
                     setType(3);
                   }}
                   onBlur={onLookUp}
+                  keyboardType="numeric"
+                />
+                <Feather
+                  name={security ? 'eye-off' : 'eye'}
+                  size={20}
+                  color={'grey'}
+                  onPress={onPressEye}
                 />
               </View>
-              {error === 2 && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  width: '80%',
+                }}>
                 <View
                   style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
                     width: '80%',
+                    flexDirection: 'row',
                   }}>
-                  <AntDesign
-                    name="exclamationcircle"
-                    size={13}
-                    color="red"
-                    style={{marginRight: 5}}
-                  />
-                  <Text style={{fontSize: 12, color: 'red'}}>
-                    Opps! Please confirm OTP code !
-                  </Text>
+                  {error === 2 && (
+                    <>
+                      <AntDesign
+                        name="exclamationcircle"
+                        size={13}
+                        color="red"
+                        style={{marginRight: 5}}
+                      />
+                      <Text style={{fontSize: 12, color: 'red'}}>
+                        Opps! Please confirm OTP code !
+                      </Text>
+                    </>
+                  )}
                 </View>
-              )}
+                <Pressable
+                  onPress={onResend}
+                  hitSlop={5}
+                  style={{
+                    width: '20%',
+                    alignItems: 'flex-end',
+                  }}>
+                  <Text style={{color: '#000', fontSize: 12}}>Resend</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
         </ScrollView>
