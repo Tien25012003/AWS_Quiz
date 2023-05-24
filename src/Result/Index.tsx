@@ -1,9 +1,11 @@
 import {View, Text, Image, Dimensions, StatusBar} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {ScrollView} from 'react-native';
+import Rating from '../Setting/Rating';
+
 const {width: WC, height: HC} = Dimensions.get('screen');
 const sortLevelRank = [
   {
@@ -43,6 +45,7 @@ const sortLevelRank = [
   },
 ];
 const Index = () => {
+  const [openRating, setOpenRating] = useState(true);
   return (
     <ScrollView
       style={{
@@ -318,6 +321,7 @@ const Index = () => {
           );
         })}
       </View>
+      <Rating openRating={openRating} setOpenRating={setOpenRating} />
     </ScrollView>
   );
 };

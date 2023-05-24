@@ -17,6 +17,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TextAnimation from '../Component/TextAnimation';
 import styles from './styles';
 import {Auth} from 'aws-amplify';
+import {CognitoHostedUIIdentityProvider} from '@aws-amplify/auth/lib/types';
 import {StackParamList} from '../Navigation/Navigation';
 type NavigationProps = NativeStackNavigationProp<StackParamList, 'SignUp'>;
 type Props = {
@@ -100,6 +101,20 @@ const SignUp = ({navigation}: Props) => {
   };
   const onResend = async () => {
     await Auth.resendSignUp(email).then(() => console.log('resend'));
+  };
+  const onGoogle = async () => {
+    await Auth.federatedSignIn({
+      provider: CognitoHostedUIIdentityProvider.Google,
+    })
+      .then(() => navigation.navigate('Home'))
+      .catch(e => console.log(e));
+  };
+  const onFacebook = async () => {
+    await Auth.federatedSignIn({
+      provider: CognitoHostedUIIdentityProvider.Facebook,
+    })
+      .then(() => navigation.navigate('Home'))
+      .catch(e => console.log(e));
   };
   useEffect(() => {
     Ref.current?.setInputState(STATE_MACHINE, 'Look', look);
@@ -376,23 +391,27 @@ const SignUp = ({navigation}: Props) => {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Image
-              source={require('../Assets/Images/google1.png')}
-              resizeMode={'contain'}
-              style={{
-                height: 65,
-                width: 65,
-                marginRight: 20,
-              }}
-            />
-            <Image
-              source={require('../Assets/Images/facebook1.png')}
-              resizeMode={'contain'}
-              style={{
-                width: 50,
-                height: 50,
-              }}
-            />
+            <Pressable onPress={onGoogle} hitSlop={20}>
+              <Image
+                source={require('../Assets/Images/google1.png')}
+                resizeMode={'contain'}
+                style={{
+                  height: 65,
+                  width: 65,
+                  marginRight: 20,
+                }}
+              />
+            </Pressable>
+            <Pressable onPress={onFacebook} hitSlop={20}>
+              <Image
+                source={require('../Assets/Images/facebook1.png')}
+                resizeMode={'contain'}
+                style={{
+                  width: 50,
+                  height: 50,
+                }}
+              />
+            </Pressable>
           </View>
         </>
       </ScrollView>
