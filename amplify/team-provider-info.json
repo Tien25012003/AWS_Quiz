@@ -10,6 +10,11 @@
       "StackName": "amplify-awsquiz-staging-173829",
       "StackId": "arn:aws:cloudformation:ap-southeast-2:780902281322:stack/amplify-awsquiz-staging-173829/a1bb7fe0-f990-11ed-b179-065725b170c2",
       "AmplifyAppId": "dprgz1qxo9g9h"
+    },
+    "categories": {
+      "auth": {
+        "AWSQUIZ": {}
+      }
     }
   }
 }

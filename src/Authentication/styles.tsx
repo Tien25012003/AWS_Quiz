@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     justifyContent: 'space-between',
     paddingHorizontal: 10,
-    marginBottom: 20,
+    marginTop: 20,
   },
   press: {
     backgroundColor: 'transparent',

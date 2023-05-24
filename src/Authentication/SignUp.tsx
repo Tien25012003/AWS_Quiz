@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TextAnimation from '../Component/TextAnimation';
 import styles from './styles';
+import {Auth} from 'aws-amplify';
 import {StackParamList} from '../Navigation/Navigation';
 type NavigationProps = NativeStackNavigationProp<StackParamList, 'SignUp'>;
 type Props = {
@@ -28,8 +29,8 @@ const TEXT_EMPTY =
   'Maybe you forgot to provide your email or password to sign up!';
 const SEND_OTP =
   ' We have send you an email. Please confirm the OTP code in your email here!';
-//const SignUp = ({navigation}: Props) => {
-const SignUp = () => {
+const SignUp = ({navigation}: Props) => {
+  //const SignUp = () => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [look, setLook] = useState(0);
@@ -37,6 +38,7 @@ const SignUp = () => {
   const [type, setType] = useState<Number>(-1);
   const [code, setCode] = useState('');
   const [screenType, setScreenType] = useState(1);
+  const [error, setError] = useState(-1);
   const Ref = useRef<RiveRef>(null);
   const BtnRef = useRef<RiveRef>(null);
   const ScrollRef = useRef<ScrollView>(null);
@@ -52,19 +54,47 @@ const SignUp = () => {
     setLook(0);
     setType(-1);
   };
-  const onPressBtn = () => {
-    //BtnRef.current?.setInputState(STATE_MACHINE_BIRD, 'clck', true);
-    if (email === '' || pass === '') {
-      Ref.current?.fireState(STATE_MACHINE, 'fail');
-      setScreenType(3);
-      return;
-    }
+  const onPressBtn = async () => {
     if (screenType === 1 || screenType === 3) {
+      if (email === '' || pass === '') {
+        Ref.current?.fireState(STATE_MACHINE, 'fail');
+        setScreenType(3);
+        return;
+      }
+      if (pass.length < 7) {
+        Ref.current?.fireState(STATE_MACHINE, 'fail');
+        setError(0);
+        return;
+      }
+      setError(-1);
       setScreenType(2);
       ScrollRef.current?.scrollTo({x: width, y: 0, animated: true});
-      Ref.current?.fireState(STATE_MACHINE, 'success');
+      await Auth.signUp({
+        username: email,
+        password: pass,
+        autoSignIn: {
+          enabled: true,
+        },
+      })
+        .then(() => {
+          setScreenType(2);
+          ScrollRef.current?.scrollTo({x: width, y: 0, animated: true});
+          Ref.current?.fireState(STATE_MACHINE, 'success');
+        })
+        .catch(() => setError(2));
     } else {
       //console.log('Go to home screen');
+      //console.log('press');
+      if (code === '') {
+        setError(2);
+        return;
+      }
+      await Auth.confirmSignUp(email, code)
+        .then(() => {
+          navigation.navigate('Home');
+        })
+        .catch(e => console.log(e));
+
       //navigation.navigate('Rating');
     }
   };
@@ -138,24 +168,31 @@ const SignUp = () => {
             ref={Ref}
             fit={Fit.Fill}
           />
+          <View
+            style={{
+              backgroundColor: '#fff',
+              opacity: 0.5,
+              width,
+              height: 5,
+              position: 'absolute',
+              bottom: -3,
+            }}
+          />
         </View>
-        <View
-          style={{
-            backgroundColor: '#fff',
-            opacity: 0.5,
-            width,
-            height: 3,
-            marginTop: -2,
-          }}
-        />
+
         <ScrollView
           horizontal
           ref={ScrollRef}
           scrollEnabled={false}
           showsHorizontalScrollIndicator={false}>
+          {/* View 1 */}
           <View style={{width}}>
             <View style={{alignItems: 'center'}}>
-              <View style={styles.row}>
+              <View
+                style={[
+                  styles.row,
+                  {borderColor: error === 1 ? 'red' : 'grey'},
+                ]}>
                 <AntDesign name={'user'} size={20} color={'grey'} />
                 <TextInput
                   style={{width: '90%', color: '#000'}}
@@ -170,7 +207,30 @@ const SignUp = () => {
                   onBlur={onLookUp}
                 />
               </View>
-              <View style={styles.row}>
+              {error === 1 && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '80%',
+                  }}>
+                  <AntDesign
+                    name="exclamationcircle"
+                    size={13}
+                    color="red"
+                    style={{marginRight: 5}}
+                  />
+                  <Text style={{fontSize: 12, color: 'red'}}>
+                    Opps! Invalid email
+                  </Text>
+                </View>
+              )}
+
+              <View
+                style={[
+                  styles.row,
+                  {borderColor: error === 0 ? 'red' : 'grey'},
+                ]}>
                 <AntDesign name={'lock'} size={20} color={'grey'} />
                 <TextInput
                   style={{width: '80%', color: '#000'}}
@@ -192,62 +252,27 @@ const SignUp = () => {
                   onPress={onPressEye}
                 />
               </View>
-            </View>
-            <View style={{alignItems: 'center'}}>
-              <Rive
-                resourceName="button"
-                artboardName="New Artboard"
-                stateMachineName={STATE_MACHINE_BIRD}
-                autoplay={true}
-                style={{
-                  height: height * 0.12,
-                  width,
-                }}
-                ref={BtnRef}
-                fit={Fit.FitWidth}
-              />
-              <Pressable
-                style={[
-                  styles.press,
-                  {width: width * 0.5, height: height * 0.1},
-                ]}
-                onPress={onPressBtn}
-              />
-            </View>
-            <View style={styles.or}>
-              <View
-                style={{width: '40%', backgroundColor: 'grey', height: 1}}
-              />
-              <Text style={{color: 'grey', fontSize: 15}}>or</Text>
-              <View
-                style={{width: '40%', backgroundColor: 'grey', height: 1}}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-              <Image
-                source={require('../Assets/Images/google1.png')}
-                resizeMode={'contain'}
-                style={{
-                  height: 65,
-                  width: 65,
-                  marginRight: 20,
-                }}
-              />
-              <Image
-                source={require('../Assets/Images/facebook1.png')}
-                resizeMode={'contain'}
-                style={{
-                  width: 50,
-                  height: 50,
-                }}
-              />
+              {error === 0 && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '80%',
+                  }}>
+                  <AntDesign
+                    name="exclamationcircle"
+                    size={13}
+                    color="red"
+                    style={{marginRight: 5}}
+                  />
+                  <Text style={{fontSize: 12, color: 'red'}}>
+                    Opps! Password should have at least 7 characters
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
+          {/* View 2 */}
           <View style={{width}}>
             <View style={{alignItems: 'center'}}>
               <View style={styles.row}>
@@ -257,7 +282,11 @@ const SignUp = () => {
                   {email}
                 </Text>
               </View>
-              <View style={styles.row}>
+              <View
+                style={[
+                  styles.row,
+                  {borderColor: error === 2 ? 'red' : 'grey'},
+                ]}>
                 <TextInput
                   style={{width: '100%', color: '#000'}}
                   defaultValue={code}
@@ -272,24 +301,76 @@ const SignUp = () => {
                   onBlur={onLookUp}
                 />
               </View>
-            </View>
-            <View style={{alignItems: 'center'}}>
-              <Rive
-                resourceName="button"
-                artboardName="New Artboard"
-                stateMachineName={STATE_MACHINE_BIRD}
-                autoplay={true}
-                style={{
-                  height: height * 0.12,
-                  width,
-                }}
-                ref={BtnRef}
-                fit={Fit.FitWidth}
-              />
-              <Pressable style={styles.press} onPress={onPressBtn} />
+              {error === 2 && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    width: '80%',
+                  }}>
+                  <AntDesign
+                    name="exclamationcircle"
+                    size={13}
+                    color="red"
+                    style={{marginRight: 5}}
+                  />
+                  <Text style={{fontSize: 12, color: 'red'}}>
+                    Opps! Please confirm OTP code !
+                  </Text>
+                </View>
+              )}
             </View>
           </View>
         </ScrollView>
+        <>
+          <View style={{alignItems: 'center'}}>
+            <Rive
+              resourceName="button"
+              artboardName="New Artboard"
+              stateMachineName={STATE_MACHINE_BIRD}
+              autoplay={true}
+              style={{
+                height: height * 0.12,
+                width,
+              }}
+              ref={BtnRef}
+              fit={Fit.FitWidth}
+            />
+            <Pressable
+              style={[styles.press, {width: width * 0.5, height: height * 0.1}]}
+              onPress={onPressBtn}
+            />
+          </View>
+          <View style={styles.or}>
+            <View style={{width: '40%', backgroundColor: 'grey', height: 1}} />
+            <Text style={{color: 'grey', fontSize: 15}}>or</Text>
+            <View style={{width: '40%', backgroundColor: 'grey', height: 1}} />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Image
+              source={require('../Assets/Images/google1.png')}
+              resizeMode={'contain'}
+              style={{
+                height: 65,
+                width: 65,
+                marginRight: 20,
+              }}
+            />
+            <Image
+              source={require('../Assets/Images/facebook1.png')}
+              resizeMode={'contain'}
+              style={{
+                width: 50,
+                height: 50,
+              }}
+            />
+          </View>
+        </>
       </ScrollView>
     </View>
   );
