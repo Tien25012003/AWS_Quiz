@@ -1,5 +1,8 @@
 type USER @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String
-  core: Int
-} 
+  score: Int
+  numberCorrect: Int
+  time: Int
+  nameImage: String
+}

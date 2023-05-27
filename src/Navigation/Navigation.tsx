@@ -3,16 +3,18 @@ import {NavigationContainer} from '@react-navigation/native';
 import SignUp from '../Authentication/SignUp';
 import InitialScreen from '../Authentication/InitialScreen';
 import Rating from '../Setting/Rating';
-import Quiz from '../Quiz/index';
-import Home from '../Home/index';
+import Quiz from '../Quiz/Index';
+import Home from '../Home/Index';
 import Result from '../Result/Index';
+import ChooseCharacter from '../ChooseCharacter/ChooseCharacter';
 export type StackParamList = {
   InitialScreen: undefined;
   SignUp: undefined;
-  Rating: undefined; // undefined because you aren't passing any params to the home screen
+  Rating: {setOpenRating: Function; openRating: boolean}; // undefined because you aren't passing any params to the home screen
   Home: undefined;
-  Quiz: undefined;
-  Result: undefined;
+  Quiz: {name: string};
+  Result: {name: string};
+  ChooseCharacter: undefined;
 };
 const Stack = createNativeStackNavigator<StackParamList>();
 
@@ -21,9 +23,10 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName="InitialScreen">
+        initialRouteName="Home">
         <Stack.Screen name={'InitialScreen'} component={InitialScreen} />
         <Stack.Screen name={'SignUp'} component={SignUp} />
+        <Stack.Screen name={'ChooseCharacter'} component={ChooseCharacter} />
         <Stack.Screen name={'Rating'} component={Rating} />
         <Stack.Screen name={'Home'} component={Home} />
         <Stack.Screen

@@ -18,7 +18,7 @@ import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamList} from '../Navigation/Navigation';
-import {DataStore} from 'aws-amplify';
+import {DataStore, Predicates} from 'aws-amplify';
 import {USER} from '../models';
 // import '@azure/core-asynciterator-polyfill';
 const {width, height} = Dimensions.get('screen');
@@ -114,17 +114,20 @@ interface Answer {
   index: number;
 }
 type Props = NativeStackScreenProps<StackParamList, 'Quiz'>;
-const Index = ({navigation}: Props) => {
-  const getDate = async () => {
-    console.log('OK');
-    const users = await DataStore.query(USER);
-    console.log(users);
-  };
+interface Params {
+  time: number;
+  score: number;
+  numberCorrect: number;
+}
+
+const Index = ({navigation, route}: Props) => {
+  const name = route.params?.name;
   const alarm = useRef<RiveRef>(null);
   const gift = useRef<RiveRef>(null);
   const character = useRef<RiveRef>(null);
   const [time, setTime] = useState<number>(60 * 4);
   const [mark, setMark] = useState<number>(0);
+  const [numberCorrect, setNumberCorrect] = useState<number>(0);
   const [question, setQuestion] = useState<string>(Question[0].question);
   const [page, setPage] = useState(0);
   const [timeStart, setTimeStart] = useState(60 * 4);
@@ -140,22 +143,41 @@ const Index = ({navigation}: Props) => {
       character.current?.fireState('State Machine 1', 'Welcome');
     }
   }, [time]);
-  const createMark = (gap: number) => {
-    console.log(gap);
+  const createMark = async (gap: number) => {
+    let point = 0;
     if (gap <= 10) {
-      setMark(mark + (1 - gap / 10) * 100);
-    } else if (gap <= 20) setMark(mark + (1 - gap / 20) * 80);
+      point = mark + (1 - gap / 10) * 100;
+    } else if (gap <= 20) point = mark + (1 - gap / 20) * 80;
     else if (gap <= 50) {
-      setMark(mark + (1 - gap / 50) * 60);
+      point = mark + (1 - gap / 50) * 60;
     } else {
-      setMark(mark + 20);
+      point = mark + 20;
     }
+
+    let DATA_QUERY = await DataStore.query(USER, user => user.name.eq(name));
+
+    if (DATA_QUERY) {
+      await DataStore.save(
+        USER.copyOf(DATA_QUERY[0], updated => {
+          updated.score = Math.floor(point);
+          updated.time = time;
+          updated.numberCorrect = numberCorrect + 1;
+        }),
+      );
+    }
+    setMark(point);
+    setNumberCorrect(numberCorrect + 1);
   };
-  const renderMessage = useCallback(() => <Message text={question} />, [page]);
+  const [enablePress, setEnablePress] = useState<boolean>(false);
+  const renderMessage = useCallback(
+    () => <Message text={question} setEnablePress={setEnablePress} />,
+    [page],
+  );
   const renderAnswer = ({item, index}: Answer) => {
     return (
       <Pressable
-        onPress={() => {
+        disabled={enablePress}
+        onPress={async () => {
           let timeGap = timeStart - time;
           if (Question[page].result === item) {
             createMark(timeGap);
@@ -163,14 +185,25 @@ const Index = ({navigation}: Props) => {
           if (page < Question.length - 1) {
             setQuestion(Question[page + 1].question);
             setPage(page + 1);
+            setEnablePress(true);
           } else {
-            console.log('result', mark);
-            navigation.navigate('Result');
+            let DATA_QUERY = await DataStore.query(USER, user =>
+              user.name.eq('21520276'),
+            );
+
+            if (DATA_QUERY) {
+              await DataStore.save(
+                USER.copyOf(DATA_QUERY[0], updated => {
+                  updated.time = time;
+                }),
+              );
+            }
+            navigation.navigate('Result', {name: name});
           }
           setTimeStart(time);
         }}
         android_ripple={{
-          color: 'hsl(220,98%,83%)',
+          color: 'hsl(0,90%,95%)',
           radius: 100,
         }}
         style={{
@@ -198,7 +231,7 @@ const Index = ({navigation}: Props) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: '#227CE6',
+        backgroundColor: 'hsl(0,90%,75%)',
         paddingTop: StatusBar.currentHeight,
       }}>
       {/*Header */}
@@ -206,7 +239,7 @@ const Index = ({navigation}: Props) => {
         style={{
           height: height * 0.3,
           width,
-          backgroundColor: '#227CE6',
+          backgroundColor: 'hsl(0,90%,75%)',
         }}>
         <View
           style={{
@@ -320,17 +353,10 @@ const Index = ({navigation}: Props) => {
           />
         </View>
         <Pressable
-          // onPress={() => {
-          //   if (page < Question.length - 1) {
-          //     setQuestion(Question[page + 1].question);
-          //     setPage(page + 1);
-          //   }
-          // }}
-          onPress={getDate}
           style={{
             width: 200,
             height: 60,
-            backgroundColor: '#227CE6',
+            backgroundColor: 'hsl(0,90%,75%)',
             borderRadius: 10,
             justifyContent: 'center',
             alignItems: 'center',

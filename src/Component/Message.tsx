@@ -1,12 +1,14 @@
 import {View, Text, Dimensions} from 'react-native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import Svg, {Path} from 'react-native-svg';
 import TextAnimation from './TextAnimation';
 const {width: WD, height: H} = Dimensions.get('screen');
 type Props = {
   text: string;
+
+  setEnablePress: Function;
 };
-const Message = ({text}: Props) => {
+const Message = ({text, setEnablePress}: Props) => {
   return (
     <Svg translateX={-15} translateY={1}>
       <Path
@@ -23,7 +25,7 @@ const Message = ({text}: Props) => {
         fill={'white'}
         translateX={15}
       />
-      <TextAnimation text={text} />
+      <TextAnimation text={text} setEnablePress={setEnablePress} />
     </Svg>
   );
 };

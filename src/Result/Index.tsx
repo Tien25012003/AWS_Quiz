@@ -1,10 +1,18 @@
 import {View, Text, Image, Dimensions, StatusBar} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {ScrollView} from 'react-native';
 import Rating from '../Setting/Rating';
+import {
+  NativeStackNavigatorProps,
+  NativeStackScreenProps,
+} from '@react-navigation/native-stack/lib/typescript/src/types';
+import {StackParamList} from '../Navigation/Navigation';
+import {DataStore} from 'aws-amplify';
+import {USER} from '../models';
+import {LIST_CHARACTER} from '../ChooseCharacter/ChooseCharacter';
 
 const {width: WC, height: HC} = Dimensions.get('screen');
 const sortLevelRank = [
@@ -44,13 +52,41 @@ const sortLevelRank = [
     rank: 5,
   },
 ];
-const Index = () => {
+type Props = NativeStackScreenProps<StackParamList, 'Result'>;
+const Index = ({route, navigation}: Props) => {
+  const [user, setUser] = useState<any>();
+  const [listUser, setListUser] = useState<any>();
+  const name = route.params.name;
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await DataStore.query(USER, u => u.name.eq(name));
+      setUser(user[0]);
+    };
+    getUser();
+  }, []);
+  useEffect(() => {
+    DataStore.observe(USER).subscribe(async () => {
+      const user = await DataStore.query(USER);
+      if (user.length > 0) {
+        user.sort((a: any, b: any) => {
+          if (a.score > b.score) {
+            return false;
+          }
+          if (a.score === b.score) {
+            if (a.time > b.time) return false;
+          }
+          return true;
+        });
+      }
+      setListUser(user);
+    });
+  }, []);
   const [openRating, setOpenRating] = useState(true);
   return (
     <ScrollView
       style={{
         flex: 1,
-        backgroundColor: '#227CE6',
+        backgroundColor: 'hsl(0,90%,75%)',
       }}>
       {/*Header */}
       <View
@@ -73,11 +109,18 @@ const Index = () => {
             alignItems: 'center',
             backgroundColor: 'white',
             marginTop: -50,
+            borderWidth: 1,
           }}>
-          <Image
-            source={{uri: 'https://img.icons8.com/fluency/48/smurf.png'}}
-            style={{width: 75, height: 75, resizeMode: 'contain'}}
-          />
+          {LIST_CHARACTER[+user?.nameImage] && (
+            <Image
+              source={LIST_CHARACTER[+user?.nameImage]}
+              style={{
+                width: 75,
+                height: 75,
+                resizeMode: 'contain',
+              }}
+            />
+          )}
         </View>
         {/*Name */}
         <Text
@@ -85,21 +128,14 @@ const Index = () => {
             color: 'black',
             fontSize: 22,
           }}>
-          Nguyen Van A
+          {user?.name}
         </Text>
-        {/*Emal */}
-        <Text
-          style={{
-            color: 'gray',
-            fontSize: 16,
-          }}>
-          nguyenvana@gmail.com
-        </Text>
+
         <View
           style={{
             width: WC * 0.8,
             flexWrap: 'wrap',
-            backgroundColor: '#227CE6',
+            backgroundColor: 'hsl(0,90%,75%)',
             padding: 1,
             marginTop: 15,
             gap: 1,
@@ -138,7 +174,7 @@ const Index = () => {
                     }}>
                     Correct
                   </Text>
-                  <Text style={{color: 'gray'}}>8/10</Text>
+                  <Text style={{color: 'gray'}}>{user?.numberCorrect}/10</Text>
                 </View>
               </View>
             </View>
@@ -172,7 +208,10 @@ const Index = () => {
                     }}>
                     Time
                   </Text>
-                  <Text style={{color: 'gray'}}>4:00</Text>
+                  <Text style={{color: 'gray'}}>
+                    {Math.floor((240 - user?.time) / 60)} :{' '}
+                    {(240 - user?.time) % 60}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -211,7 +250,7 @@ const Index = () => {
                     }}>
                     Score
                   </Text>
-                  <Text style={{color: 'gray'}}>124</Text>
+                  <Text style={{color: 'gray'}}>{user?.score}</Text>
                 </View>
               </View>
             </View>

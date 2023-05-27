@@ -78,7 +78,7 @@ const Index = ({navigation, route}: Props) => {
       animatedScale.value = withTiming(1, {duration: 3000});
     }, 5000);
     setTimeout(() => {
-      navigation.navigate('Quiz');
+      navigation.navigate('ChooseCharacter');
     }, 8000);
   };
 

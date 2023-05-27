@@ -11,9 +11,7 @@ import {DataStore} from 'aws-amplify';
 import {SQLiteAdapter} from '@aws-amplify/datastore-storage-adapter/SQLiteAdapter';
 import 'core-js/full/symbol/async-iterator';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-DataStore.configure({
-  storageAdapter: SQLiteAdapter,
-});
+
 Amplify.configure(awsExports);
 
 AppRegistry.registerComponent(appName, () => App);

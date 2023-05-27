@@ -4,9 +4,15 @@ type Props = {
   text: string;
   width?: number;
   marginLeft?: number;
+  setEnablePress: Function;
 };
 const {width: WD} = Dimensions.get('screen');
-const TextAnimation = ({text, width = WD * 0.5, marginLeft = 20}: Props) => {
+const TextAnimation = ({
+  text,
+  width = WD * 0.5,
+  marginLeft = 20,
+  setEnablePress,
+}: Props) => {
   const listTxt = useMemo(() => text.split(' '), [text]);
   let clear = useMemo(() => false, [text]);
   const [sentences, setSentences] = useState<string[]>([]);
@@ -16,6 +22,9 @@ const TextAnimation = ({text, width = WD * 0.5, marginLeft = 20}: Props) => {
       if (number < listTxt.length) {
         setSentences([...sentences, listTxt[number]]);
         setNumber(number + 1);
+        if (number + 1 === listTxt.length) {
+          setEnablePress(false);
+        }
       }
     }, 100);
   }, [number]);

@@ -13,7 +13,10 @@ type EagerUSER = {
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly core?: number | null;
+  readonly score?: number | null;
+  readonly numberCorrect?: number | null;
+  readonly time?: number | null;
+  readonly nameImage?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -25,7 +28,10 @@ type LazyUSER = {
   };
   readonly id: string;
   readonly name?: string | null;
-  readonly core?: number | null;
+  readonly score?: number | null;
+  readonly numberCorrect?: number | null;
+  readonly time?: number | null;
+  readonly nameImage?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
