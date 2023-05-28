@@ -75,11 +75,11 @@ const Index = ({navigation, route}: Props) => {
     animatedRotate_2.value = withRepeat(withTiming(1), -1, true);
     setTimeout(() => {
       animatedOpacity.value = 0;
-      animatedScale.value = withTiming(1, {duration: 3000});
-    }, 5000);
+      animatedScale.value = withTiming(1, {duration: 2000});
+    }, 3000);
     setTimeout(() => {
       navigation.navigate('ChooseCharacter');
-    }, 8000);
+    }, 5000);
   };
 
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
