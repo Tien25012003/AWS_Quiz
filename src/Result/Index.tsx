@@ -168,14 +168,14 @@ const Index = ({route, navigation}: Props) => {
             backgroundColor: 'hsl(0,90%,75%)',
             padding: 1,
             marginTop: 15,
-            gap: 1,
+            //gap: 1,
           }}>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: 1,
+              //gap: 1,
             }}>
             <View
               style={{
@@ -251,7 +251,7 @@ const Index = ({route, navigation}: Props) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: 1,
+              //gap: 1,
               width: '100%',
             }}>
             <View
