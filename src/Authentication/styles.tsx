@@ -44,5 +44,11 @@ const styles = StyleSheet.create({
     left: 20,
     transform: [{rotate: '45deg'}],
   },
+  indicator: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
 });
 export default styles;

@@ -1,4 +1,11 @@
-import {View, Text, Image, Dimensions, StatusBar} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  StatusBar,
+  Pressable,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,7 +19,9 @@ import {
 import {StackParamList} from '../Navigation/Navigation';
 import {DataStore} from 'aws-amplify';
 import {USER} from '../models';
+import {Auth} from 'aws-amplify';
 import {LIST_CHARACTER} from '../ChooseCharacter/ChooseCharacter';
+
 interface DATA {
   id: string;
   name: string;
@@ -392,6 +401,23 @@ const Index = ({route, navigation}: Props) => {
           }
         })}
       </View>
+      <Pressable
+        style={{
+          alignSelf: 'center',
+          paddingVertical: 10,
+          paddingHorizontal: 20,
+          backgroundColor: '#fff',
+          borderRadius: 15,
+          marginTop: 20,
+        }}
+        onPress={async () => {
+          await Auth.deleteUser();
+          navigation.navigate('SignUp');
+        }}>
+        <Text style={{color: '#000', fontWeight: '700', fontSize: 20}}>
+          Exit
+        </Text>
+      </Pressable>
       <Rating openRating={openRating} setOpenRating={setOpenRating} />
     </ScrollView>
   );

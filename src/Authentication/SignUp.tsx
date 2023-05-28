@@ -7,6 +7,9 @@ import {
   TextInput,
   Pressable,
   Image,
+  Button,
+  BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useRef, useState, useEffect} from 'react';
 import Rive, {RiveRef, Fit} from 'rive-react-native';
@@ -16,7 +19,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import TextAnimation from '../Component/TextAnimation';
 import styles from './styles';
-import {Auth} from 'aws-amplify';
+import {Auth, Hub} from 'aws-amplify';
 import {CognitoHostedUIIdentityProvider} from '@aws-amplify/auth/lib/types';
 import {StackParamList} from '../Navigation/Navigation';
 type NavigationProps = NativeStackNavigationProp<StackParamList, 'SignUp'>;
@@ -40,6 +43,7 @@ const SignUp = ({navigation}: Props) => {
   const [code, setCode] = useState('');
   const [screenType, setScreenType] = useState(1);
   const [error, setError] = useState(-1);
+  const [loading, setLoading] = useState(false);
   const Ref = useRef<RiveRef>(null);
   const BtnRef = useRef<RiveRef>(null);
   const ScrollRef = useRef<ScrollView>(null);
@@ -106,14 +110,14 @@ const SignUp = ({navigation}: Props) => {
     await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Google,
     })
-      .then(() => navigation.navigate('Home'))
+      .then(() => setLoading(true))
       .catch(e => console.log(e));
   };
   const onFacebook = async () => {
     await Auth.federatedSignIn({
       provider: CognitoHostedUIIdentityProvider.Facebook,
     })
-      .then(() => navigation.navigate('Home'))
+      .then(() => setLoading(true))
       .catch(e => console.log(e));
   };
   useEffect(() => {
@@ -130,6 +134,42 @@ const SignUp = ({navigation}: Props) => {
       setLook(code.length * 5);
     }
   }, [email.length, pass.length, code.length]);
+  useEffect(() => {
+    const unsubscribe = Hub.listen('auth', ({payload: {event, data}}) => {
+      if (event === 'signIn') {
+        if (
+          data.username.includes('google') ||
+          data.username.includes('facebook')
+        ) {
+          navigation.navigate('Home');
+        }
+      }
+    });
+    return unsubscribe;
+  }, []);
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => {
+        return true; // disable backhardware
+      },
+    );
+    return () => {
+      backHandler.remove();
+    };
+  }, []);
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => setLoading(false), 10000);
+    }
+  }, [loading]);
+  if (loading) {
+    return (
+      <View style={styles.indicator}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
   return (
     <View style={{flex: 1, paddingTop: 20, backgroundColor: '#fff'}}>
       <ScrollView>
@@ -158,6 +198,7 @@ const SignUp = ({navigation}: Props) => {
                     text={SEND_OTP}
                     width={width * 0.8}
                     marginLeft={5}
+                    setEnablePress={undefined}
                   />
                 )}
                 {error === 3 && (
@@ -165,6 +206,7 @@ const SignUp = ({navigation}: Props) => {
                     text={TEXT_EMPTY}
                     width={width * 0.8}
                     marginLeft={5}
+                    setEnablePress={undefined}
                   />
                 )}
                 <View style={styles.square} />

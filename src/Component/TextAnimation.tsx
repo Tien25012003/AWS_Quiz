@@ -4,7 +4,7 @@ type Props = {
   text: string;
   width?: number;
   marginLeft?: number;
-  setEnablePress: Function;
+  setEnablePress: Function | undefined;
 };
 const {width: WD} = Dimensions.get('screen');
 const TextAnimation = ({
@@ -23,7 +23,7 @@ const TextAnimation = ({
         setSentences([...sentences, listTxt[number]]);
         setNumber(number + 1);
         if (number + 1 === listTxt.length) {
-          setEnablePress(false);
+          setEnablePress?.(false);
         }
       }
     }, 100);
