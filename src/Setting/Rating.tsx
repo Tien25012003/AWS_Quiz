@@ -1,9 +1,7 @@
 import {
   View,
-  Text,
   Dimensions,
   ScrollView,
-  Button,
   Pressable,
   StyleSheet,
   Modal,
@@ -23,7 +21,6 @@ const initialState: Array<boolean> = [...new Array(5).fill(false)];
 const Reducer = (state: Array<boolean>, action: Action): Array<boolean> => {
   switch (action.type) {
     case CLICK:
-      //console.log('Click');
       for (let i = 0; i <= action.index; i++) {
         state[i] = true;
       }
@@ -47,15 +44,14 @@ const Rating = ({setOpenRating, openRating}: Props) => {
   const onSubmit = () => {
     BtnRef.current?.setInputState(STATE_MACHINE, 'clicked?', true);
     setOpenRating(false);
-    //BtnRef.current?.setInputState(STATE_MACHINE, 'waveR?', true);
   };
   useEffect(() => {
     setTimeout(() => {
       BtnRef.current?.setInputState(STATE_MACHINE, 'waveR?', true);
-    }, 2000);
+    }, 4000);
     setTimeout(() => {
       BtnRef.current?.setInputState(STATE_MACHINE, 'waveR?', false);
-    }, 4000);
+    }, 6000);
   }, []);
   useEffect(() => {
     let index = state.findIndex(s => s === false);
