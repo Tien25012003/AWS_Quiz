@@ -12,11 +12,11 @@ type EagerUSER = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly nameImage?: number | null;
   readonly name?: string | null;
   readonly score?: number | null;
-  readonly numberCorrect?: number | null;
   readonly time?: number | null;
-  readonly nameImage?: number | null;
+  readonly numberCorrect?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -27,11 +27,11 @@ type LazyUSER = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
+  readonly nameImage?: number | null;
   readonly name?: string | null;
   readonly score?: number | null;
-  readonly numberCorrect?: number | null;
   readonly time?: number | null;
-  readonly nameImage?: number | null;
+  readonly numberCorrect?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

@@ -78,7 +78,7 @@ const Index = ({navigation, route}: Props) => {
     }, 3000);
     setTimeout(() => {
       navigation.navigate('ChooseCharacter');
-    }, 5000);
+    }, 5500);
   };
 
   const AnimatedPressable = Animated.createAnimatedComponent(Pressable);

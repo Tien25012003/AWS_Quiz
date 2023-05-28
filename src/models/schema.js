@@ -10,6 +10,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "nameImage": {
+                    "name": "nameImage",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "name": {
                     "name": "name",
                     "isArray": false,
@@ -24,13 +31,6 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "numberCorrect": {
-                    "name": "numberCorrect",
-                    "isArray": false,
-                    "type": "Int",
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "time": {
                     "name": "time",
                     "isArray": false,
@@ -38,8 +38,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "nameImage": {
-                    "name": "nameImage",
+                "numberCorrect": {
+                    "name": "numberCorrect",
                     "isArray": false,
                     "type": "Int",
                     "isRequired": false,

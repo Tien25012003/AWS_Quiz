@@ -257,7 +257,7 @@ const Index = ({navigation, route}: Props) => {
     if (DATA_QUERY) {
       await DataStore.save(
         USER.copyOf(DATA_QUERY[0], updated => {
-          updated.score = point;
+          updated.score = +point;
           updated.time = time;
           updated.numberCorrect = numberCorrect + 1;
         }),

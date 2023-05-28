@@ -63,7 +63,7 @@ const ChooseCharacter = ({navigation}: Props) => {
       await DataStore.save(
         new USER({
           name: name,
-          score: 0,
+          score: 0.0,
           numberCorrect: 0,
           time: 0,
           nameImage: characterIndex,

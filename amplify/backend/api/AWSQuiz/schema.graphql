@@ -1,9 +1,9 @@
 type USER @model @auth(rules: [{allow: public}]) {
   id: ID!
+  nameImage: Int
   name: String
   score: Float
-  numberCorrect: Int
   time: Int
-  nameImage: Int
+  numberCorrect: Int
 }
  

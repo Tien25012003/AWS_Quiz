@@ -31,7 +31,7 @@ const STATE_MACHINE_BIRD = 'State Machine 2';
 const TEXT_EMPTY =
   'Maybe you forgot to provide your email or password to sign up!';
 const SEND_OTP =
-  ' We have send you an email. Please confirm the OTP code in your email here!';
+  ' We have sent you an email. Please confirm the OTP code in your email here!';
 const SignUp = ({navigation}: Props) => {
   //const SignUp = () => {
   const [email, setEmail] = useState('');
