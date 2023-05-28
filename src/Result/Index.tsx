@@ -13,7 +13,15 @@ import {StackParamList} from '../Navigation/Navigation';
 import {DataStore} from 'aws-amplify';
 import {USER} from '../models';
 import {LIST_CHARACTER} from '../ChooseCharacter/ChooseCharacter';
-
+interface DATA {
+  id: string;
+  name: string;
+  score: number;
+  time: number;
+  nameImage: string;
+  createdAt: any;
+  updatedAt: any;
+}
 const {width: WC, height: HC} = Dimensions.get('screen');
 const sortLevelRank = [
   {
@@ -55,30 +63,52 @@ const sortLevelRank = [
 type Props = NativeStackScreenProps<StackParamList, 'Result'>;
 const Index = ({route, navigation}: Props) => {
   const [user, setUser] = useState<any>();
-  const [listUser, setListUser] = useState<any>();
+  const [listUser, setListUser] = useState<any[]>([]);
+  const [rankCurrentUser, setRankCurrentUser] = useState<number>(0);
   const name = route.params.name;
   useEffect(() => {
     const getUser = async () => {
-      const user = await DataStore.query(USER, u => u.name.eq(name));
-      setUser(user[0]);
+      const user = await DataStore.query(USER);
+      user.sort((a, b) => {
+        if (a.score && b.score && a.time && b.time) {
+          if (a.score < b.score) return 1;
+          if (a.score === b.score) {
+            if (a.time > b.time) {
+              return 1;
+            }
+            return -1;
+          }
+          return -1;
+        }
+        return -1;
+      });
+      setListUser(user);
+      let rankCurrentUser = user.findIndex(u => u.name === name);
+      setRankCurrentUser(rankCurrentUser + 1);
+      setUser(user[rankCurrentUser]);
     };
     getUser();
   }, []);
+
   useEffect(() => {
     DataStore.observe(USER).subscribe(async () => {
       const user = await DataStore.query(USER);
-      if (user.length > 0) {
-        user.sort((a: any, b: any) => {
-          if (a.score > b.score) {
-            return false;
-          }
+      user.sort((a, b) => {
+        if (a.score && b.score && a.time && b.time) {
+          if (a.score < b.score) return 1;
           if (a.score === b.score) {
-            if (a.time > b.time) return false;
+            if (a.time > b.time) {
+              return 1;
+            }
+            return -1;
           }
-          return true;
-        });
-      }
-      setListUser(user);
+          return -1;
+        }
+        return -1;
+      });
+      let rankCurrentUser = user.findIndex(u => u.name === name);
+      setRankCurrentUser(rankCurrentUser + 1);
+      setListUser([...user]);
     });
   }, []);
   const [openRating, setOpenRating] = useState(true);
@@ -280,7 +310,7 @@ const Index = ({route, navigation}: Props) => {
                     }}>
                     Rank
                   </Text>
-                  <Text style={{color: 'gray'}}>15</Text>
+                  <Text style={{color: 'gray'}}>{rankCurrentUser}</Text>
                 </View>
               </View>
             </View>
@@ -303,61 +333,63 @@ const Index = ({route, navigation}: Props) => {
           alignSelf: 'center',
           width: WC * 0.9,
         }}>
-        {sortLevelRank.map((item, index) => {
-          let color = '#227CE6';
-          if (index === 0) color = '#FFB800';
-          if (index === 1) color = '#939393';
-          if (index === 2) color = '#D26F37';
-          return (
-            <View
-              key={index}
-              style={{
-                width: '100%',
-                paddingVertical: 10,
-                backgroundColor: 'white',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingHorizontal: 10,
-                marginVertical: 10,
-                borderRadius: 10,
-              }}>
-              <Image
-                source={{uri: item.image}}
-                style={{width: 80, height: 80, resizeMode: 'contain'}}
-              />
-              <View>
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 16,
-                    fontWeight: '600',
-                  }}>
-                  {item.name}
-                </Text>
-                <Text style={{fontSize: 14, color: 'black'}}>
-                  Score: {item.score}
-                </Text>
-              </View>
+        {listUser.map((item, index) => {
+          if (index < 8) {
+            let color = '#227CE6';
+            if (index === 0) color = '#FFB800';
+            if (index === 1) color = '#939393';
+            if (index === 2) color = '#D26F37';
+            return (
               <View
+                key={index}
                 style={{
+                  width: '100%',
+                  paddingVertical: 10,
+                  backgroundColor: 'white',
                   flexDirection: 'row',
                   alignItems: 'center',
+                  justifyContent: 'space-between',
+                  paddingHorizontal: 10,
+                  marginVertical: 10,
+                  borderRadius: 10,
                 }}>
-                {index <= 2 && (
-                  <Ionicons name="medal-outline" color={color} size={35} />
-                )}
-                <Text
+                <Image
+                  source={LIST_CHARACTER[+item.nameImage]}
+                  style={{width: 80, height: 80, resizeMode: 'contain'}}
+                />
+                <View>
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 16,
+                      fontWeight: '600',
+                    }}>
+                    {item.name}
+                  </Text>
+                  <Text style={{fontSize: 14, color: 'black'}}>
+                    Score: {item.score}
+                  </Text>
+                </View>
+                <View
                   style={{
-                    marginLeft: 10,
-                    fontSize: 17,
-                    color: color,
+                    flexDirection: 'row',
+                    alignItems: 'center',
                   }}>
-                  {item.rank}
-                </Text>
+                  {index <= 2 && (
+                    <Ionicons name="medal-outline" color={color} size={35} />
+                  )}
+                  <Text
+                    style={{
+                      marginLeft: 10,
+                      fontSize: 17,
+                      color: color,
+                    }}>
+                    {index + 1}
+                  </Text>
+                </View>
               </View>
-            </View>
-          );
+            );
+          }
         })}
       </View>
       <Rating openRating={openRating} setOpenRating={setOpenRating} />

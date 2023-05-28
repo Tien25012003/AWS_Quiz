@@ -188,7 +188,7 @@ const Index = ({navigation, route}: Props) => {
             setEnablePress(true);
           } else {
             let DATA_QUERY = await DataStore.query(USER, user =>
-              user.name.eq('21520276'),
+              user.name.eq(name),
             );
 
             if (DATA_QUERY) {
