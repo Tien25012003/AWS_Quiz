@@ -15,100 +15,203 @@ import Message from '../Component/Message';
 import Rive, {Alignment, Fit, RiveRef} from 'rive-react-native';
 import CountDown from '../Component/CountDown';
 import {useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamList} from '../Navigation/Navigation';
-import {DataStore, Predicates} from 'aws-amplify';
+import {DataStore} from 'aws-amplify';
 import {USER} from '../models';
 // import '@azure/core-asynciterator-polyfill';
 const {width, height} = Dimensions.get('screen');
-const Answer = ['Basketball', 'Football', 'I don’t know!!!', 'Hmmm'];
-const Question = [
-  {
-    question: 'When was AWS official launched?',
-    answer: ['2005', '2003', '2008', '2006'],
-    result: '2006',
-  },
-  {
-    question: 'What is an IAM Policy',
-    answer: [
-      'A document that customizes user permissions for AWS services and resources',
-      'A temporary access to AWS services or resources',
-      'An entity that interacts with AWS services or resources',
-      "I don't know",
-    ],
-    result:
-      'A document that customizes user permissions for AWS services and resources',
-  },
-  {
-    question: 'What is AWS EC2?',
-    answer: [
-      'A data center',
-      'A resource monitoring service',
-      'A virtual server in the AWS cloud',
-      'A serverless compute service',
-    ],
-    result: 'A virtual server in the AWS cloud',
-  },
-  {
-    question: 'What does EC2 stand for?',
-    answer: [
-      'Efficient Compute Cloud',
-      'Enterprise Compute Cloud',
-      'Elastic Compute Cloud',
-      'None of above',
-    ],
-    result: 'Elastic Compute Cloud',
-  },
-  {
-    question: 'With AWS EC2 you only pay for the compute time that you use.',
-    answer: ['True', 'False', 'Not Given', "I don't know"],
-    resolve: 'True',
-  },
-  {
-    question:
-      'A company hosts data in S3. There is a requirement to control access to the S3 buckets. Which are the 2 ways in which this can be achieved?',
-    answer: [
-      'Use Bucket Policies and IAM user policies',
-      'Use the Secure Token Service and AWS Access Keys.',
-      'Use AWS Access Keys and IAM user policies.',
-      'Use Bucket Policies and AWS Access Keys.',
-    ],
-    result: 'Use Bucket Policies and IAM user policies',
-  },
-  {
-    question: 'Which of the following is an online backup and storage system?',
-    answer: [
-      'Amazon Elastic Compute Cloud',
-      'Amazon Simple Queue Service',
-      'Amazon Simple Notification Service',
-      'Amazon Simple Storage System',
-    ],
-    result: 'Amazon Simple Storage System',
-  },
-  {
-    question: 'Amazon RDS is a distributed …… service by AWS',
-    answer: [
-      'long term database',
-      'relational database',
-      'critical database',
-      "I don't know",
-    ],
-    result: 'relational database',
-  },
-  {
-    question:
-      'Amazon RDS is a web service that makes it easier to set up, operate and scale a relational database in ……',
-    answer: ['the cloud', 'the group', 'the class', "I don't know"],
-    result: 'the cloud',
-  },
-  {
-    question:
-      'Amazon RDS creates and saves automated …… of RDS database instances.',
-    answer: ['headings', 'backups', 'backlinks', "I don't know"],
-    result: 'backups',
-  },
-];
+const Question = Math.floor(Math.random())
+  ? [
+      {
+        question: 'When was AWS official launched?',
+        answer: ['2005', '2003', '2008', '2006'],
+        result: '2006',
+      },
+      {
+        question: 'What is an IAM Policy',
+        answer: [
+          'A document that customizes user permissions for AWS services and resources',
+          'A temporary access to AWS services or resources',
+          'An entity that interacts with AWS services or resources',
+          "I don't know",
+        ],
+        result:
+          'A document that customizes user permissions for AWS services and resources',
+      },
+      {
+        question: 'What is AWS EC2?',
+        answer: [
+          'A data center',
+          'A resource monitoring service',
+          'A virtual server in the AWS cloud',
+          'A serverless compute service',
+        ],
+        result: 'A virtual server in the AWS cloud',
+      },
+      {
+        question: 'What does EC2 stand for?',
+        answer: [
+          'Efficient Compute Cloud',
+          'Enterprise Compute Cloud',
+          'Elastic Compute Cloud',
+          'None of above',
+        ],
+        result: 'Elastic Compute Cloud',
+      },
+      {
+        question: 'Amazon RDS is a distributed …… service by AWS',
+        answer: [
+          'long term database',
+          'short term database',
+          'relational database',
+          'critical database',
+        ],
+        resolve: 'relational database',
+      },
+      {
+        question: 'What is the main purpose of AWS Amplify?',
+        answer: [
+          'Database management',
+          'User authentication',
+          'Serverless application development',
+          'Machine learning algorithms',
+        ],
+        result: 'Serverless application development',
+      },
+      {
+        question: 'Which programming languages are supported by AWS Amplify?',
+        answer: [
+          'Java only',
+          'Python only',
+          'JavaScript, TypeScript, and Python',
+          'JavaScript and Ruby',
+        ],
+        result: 'JavaScript, TypeScript, and Python',
+      },
+      {
+        question:
+          'Amplify DataStore help you build real-time and ….. apps faster',
+        answer: ['online', 'offline', 'A and B', 'None of above'],
+        result: 'offline',
+      },
+      {
+        question:
+          'Which component of AWS Amplify is used for offline data synchronization?',
+        answer: [
+          'Amplify Console',
+          'Amplify DataStore',
+          'Amplify CLI',
+          'Amplify Analytics',
+        ],
+        result: 'Amplify DataStore',
+      },
+      {
+        question: 'How can you authenticate users in AWS Amplify?',
+        answer: [
+          'Use third-party authentication providers like Google or Facebook',
+          'Implement custom authentication logic',
+          'A and B',
+          'User authentication is not supported in AWS Amplify',
+        ],
+        result: 'A and B',
+      },
+    ]
+  : [
+      {
+        question: 'When was AWS official launched?',
+        answer: ['2005', '2003', '2008', '2006'],
+        result: '2006',
+      },
+      {
+        question: 'What is an IAM Policy',
+        answer: [
+          'A document that customizes user permissions for AWS services and resources',
+          'A temporary access to AWS services or resources',
+          'An entity that interacts with AWS services or resources',
+          "I don't know",
+        ],
+        result:
+          'A document that customizes user permissions for AWS services and resources',
+      },
+      {
+        question: 'What is AWS EC2?',
+        answer: [
+          'A data center',
+          'A resource monitoring service',
+          'A virtual server in the AWS cloud',
+          'A serverless compute service',
+        ],
+        result: 'A virtual server in the AWS cloud',
+      },
+      {
+        question: 'What does EC2 stand for?',
+        answer: [
+          'Efficient Compute Cloud',
+          'Enterprise Compute Cloud',
+          'Elastic Compute Cloud',
+          'None of above',
+        ],
+        result: 'Elastic Compute Cloud',
+      },
+      {
+        question: 'Amazon RDS is a distributed …… service by AWS',
+        answer: [
+          'long term database',
+          'short term database',
+          'relational database',
+          'critical database',
+        ],
+        resolve: 'relational database',
+      },
+      {
+        question: 'What is the main purpose of AWS Amplify?',
+        answer: [
+          'Database management',
+          'User authentication',
+          'Serverless application development',
+          'Machine learning algorithms',
+        ],
+        result: 'Serverless application development',
+      },
+      {
+        question: 'Which programming languages are supported by AWS Amplify?',
+        answer: [
+          'Java only',
+          'Python only',
+          'JavaScript, TypeScript, and Python',
+          'JavaScript and Ruby',
+        ],
+        result: 'JavaScript, TypeScript, and Python',
+      },
+      {
+        question:
+          'Amplify DataStore help you build real-time and ….. apps faster',
+        answer: ['online', 'offline', 'A and B', 'None of above'],
+        result: 'offline',
+      },
+      {
+        question:
+          'Which component of AWS Amplify is used for offline data synchronization?',
+        answer: [
+          'Amplify Console',
+          'Amplify DataStore',
+          'Amplify CLI',
+          'Amplify Analytics',
+        ],
+        result: 'Amplify DataStore',
+      },
+      {
+        question: 'How can you authenticate users in AWS Amplify?',
+        answer: [
+          'Use third-party authentication providers like Google or Facebook',
+          'Implement custom authentication logic',
+          'A and B',
+          'User authentication is not supported in AWS Amplify',
+        ],
+        result: 'A and B',
+      },
+    ].reverse();
 interface Answer {
   item: string;
   index: number;
@@ -159,7 +262,7 @@ const Index = ({navigation, route}: Props) => {
     if (DATA_QUERY) {
       await DataStore.save(
         USER.copyOf(DATA_QUERY[0], updated => {
-          updated.score = Math.floor(point);
+          updated.score = point;
           updated.time = time;
           updated.numberCorrect = numberCorrect + 1;
         }),
@@ -176,6 +279,7 @@ const Index = ({navigation, route}: Props) => {
   const renderAnswer = ({item, index}: Answer) => {
     return (
       <Pressable
+        key={index}
         disabled={enablePress}
         onPress={async () => {
           let timeGap = timeStart - time;
@@ -292,7 +396,7 @@ const Index = ({navigation, route}: Props) => {
                 fontSize: 20,
                 color: 'white',
               }}>
-              {mark}
+              {Math.round(mark * 100) / 100}
             </Text>
           </View>
         </View>
@@ -345,6 +449,8 @@ const Index = ({navigation, route}: Props) => {
             data={Question[page].answer}
             renderItem={renderAnswer}
             numColumns={2}
+            removeClippedSubviews
+            renderToHardwareTextureAndroid
             columnWrapperStyle={{
               justifyContent: 'space-between',
               marginVertical: 10,

@@ -289,7 +289,9 @@ const Index = ({route, navigation}: Props) => {
                     }}>
                     Score
                   </Text>
-                  <Text style={{color: 'gray'}}>{user?.score}</Text>
+                  <Text style={{color: 'gray'}}>
+                    {Math.round(user?.score * 100) / 100}
+                  </Text>
                 </View>
               </View>
             </View>

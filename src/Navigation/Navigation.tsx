@@ -3,8 +3,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import SignUp from '../Authentication/SignUp';
 import InitialScreen from '../Authentication/InitialScreen';
 import Rating from '../Setting/Rating';
-import Quiz from '../Quiz/index';
-import Home from '../Home/index';
+import Quiz from '../Quiz/Index';
+import Home from '../Home/Index';
 import Result from '../Result/Index';
 import ChooseCharacter from '../ChooseCharacter/ChooseCharacter';
 export type StackParamList = {
@@ -23,7 +23,7 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName="InitialScreen">
+        initialRouteName="Quiz">
         <Stack.Screen name={'InitialScreen'} component={InitialScreen} />
         <Stack.Screen name={'SignUp'} component={SignUp} />
         <Stack.Screen name={'ChooseCharacter'} component={ChooseCharacter} />
