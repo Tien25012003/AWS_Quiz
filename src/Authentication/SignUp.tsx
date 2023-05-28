@@ -7,7 +7,6 @@ import {
   TextInput,
   Pressable,
   Image,
-  Button,
   BackHandler,
   ActivityIndicator,
 } from 'react-native';
