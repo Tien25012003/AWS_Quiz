@@ -11,10 +11,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Rive, {Alignment, Fit} from 'rive-react-native';
-import {
-  NativeStackNavigatorProps,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack/lib/typescript/src/types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack/lib/typescript/src/types';
 import {StackParamList} from '../Navigation/Navigation';
 import {DataStore} from 'aws-amplify';
 import {USER} from '../models';
@@ -69,7 +66,7 @@ const ChooseCharacter = ({navigation}: Props) => {
           score: 0,
           numberCorrect: 0,
           time: 0,
-          nameImage: characterIndex.toString(),
+          nameImage: characterIndex,
         }),
       );
     }

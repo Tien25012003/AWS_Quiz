@@ -16,7 +16,7 @@ type EagerUSER = {
   readonly score?: number | null;
   readonly numberCorrect?: number | null;
   readonly time?: number | null;
-  readonly nameImage?: string | null;
+  readonly nameImage?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -31,7 +31,7 @@ type LazyUSER = {
   readonly score?: number | null;
   readonly numberCorrect?: number | null;
   readonly time?: number | null;
-  readonly nameImage?: string | null;
+  readonly nameImage?: number | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

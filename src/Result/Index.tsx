@@ -12,63 +12,15 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {ScrollView} from 'react-native';
 import Rating from '../Setting/Rating';
-import {
-  NativeStackNavigatorProps,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack/lib/typescript/src/types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack/lib/typescript/src/types';
 import {StackParamList} from '../Navigation/Navigation';
 import {DataStore} from 'aws-amplify';
 import {USER} from '../models';
 import {Auth} from 'aws-amplify';
 import {LIST_CHARACTER} from '../ChooseCharacter/ChooseCharacter';
 
-interface DATA {
-  id: string;
-  name: string;
-  score: number;
-  time: number;
-  nameImage: string;
-  createdAt: any;
-  updatedAt: any;
-}
 const {width: WC, height: HC} = Dimensions.get('screen');
-const sortLevelRank = [
-  {
-    image:
-      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
-    name: 'Doan Tan Khang',
-    score: 5555,
-    rank: 1,
-  },
-  {
-    image:
-      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
-    name: 'Doan Tan Khang',
-    score: 5555,
-    rank: 2,
-  },
-  {
-    image:
-      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
-    name: 'Doan Tan Khang',
-    score: 5555,
-    rank: 3,
-  },
-  {
-    image:
-      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
-    name: 'Doan Tan Khang',
-    score: 5555,
-    rank: 4,
-  },
-  {
-    image:
-      'https://w7.pngwing.com/pngs/152/259/png-transparent-cartoon-character-animation-game-cartoon-characters-video-game-boy-cartoon-thumbnail.png',
-    name: 'Doan Tan Khang',
-    score: 5555,
-    rank: 5,
-  },
-];
+
 type Props = NativeStackScreenProps<StackParamList, 'Result'>;
 const Index = ({route, navigation}: Props) => {
   const [user, setUser] = useState<any>();
@@ -152,7 +104,7 @@ const Index = ({route, navigation}: Props) => {
           }}>
           {LIST_CHARACTER[+user?.nameImage] && (
             <Image
-              source={LIST_CHARACTER[+user?.nameImage]}
+              source={LIST_CHARACTER[user?.nameImage]}
               style={{
                 width: 75,
                 height: 75,

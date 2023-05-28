@@ -20,7 +20,7 @@ export const schema = {
                 "score": {
                     "name": "score",
                     "isArray": false,
-                    "type": "Int",
+                    "type": "Float",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -41,7 +41,7 @@ export const schema = {
                 "nameImage": {
                     "name": "nameImage",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -90,6 +90,6 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "codegenVersion": "3.4.0",
-    "version": "95969d2284982e24b91dfa14325c8169"
+    "codegenVersion": "3.4.3",
+    "version": "6d286f6638b002726ebb85e53349fe3c"
 };

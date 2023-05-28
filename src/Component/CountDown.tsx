@@ -1,7 +1,6 @@
-import {View, Text} from 'react-native';
+import {Text} from 'react-native';
 import React, {useEffect} from 'react';
-import {useState, useMemo} from 'react';
-import Rive from 'rive-react-native';
+
 interface Props {
   text: string;
   time: number;

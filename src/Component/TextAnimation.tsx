@@ -1,5 +1,5 @@
 import {View, Text, Dimensions} from 'react-native';
-import React, {useEffect, useRef, useCallback, useState, useMemo} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 type Props = {
   text: string;
   width?: number;

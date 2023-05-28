@@ -1,16 +1,12 @@
 import {
   View,
   Text,
-  Image,
-  Button,
-  Vibration,
   Dimensions,
   FlatList,
   StatusBar,
   Pressable,
 } from 'react-native';
 import React, {useRef, useState, useCallback} from 'react';
-import TextAnimation from '../Component/TextAnimation';
 import Message from '../Component/Message';
 import Rive, {Alignment, Fit, RiveRef} from 'rive-react-native';
 import CountDown from '../Component/CountDown';
@@ -19,7 +15,6 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {StackParamList} from '../Navigation/Navigation';
 import {DataStore} from 'aws-amplify';
 import {USER} from '../models';
-// import '@azure/core-asynciterator-polyfill';
 const {width, height} = Dimensions.get('screen');
 const Question = Math.floor(Math.random())
   ? [

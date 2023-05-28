@@ -1,8 +1,7 @@
-import {View, Text, Button, Pressable, Dimensions} from 'react-native';
-import React, {useRef, useEffect} from 'react';
+import {View, Pressable, Dimensions} from 'react-native';
+import React, {useRef} from 'react';
 import Rive, {RiveRef, Fit, Alignment} from 'rive-react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useNavigation} from '@react-navigation/native';
 import Animated, {
   interpolate,
   useAnimatedStyle,
