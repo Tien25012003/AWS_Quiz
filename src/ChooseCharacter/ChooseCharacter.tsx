@@ -58,17 +58,7 @@ const ChooseCharacter = ({navigation}: Props) => {
       setError(2);
     } else {
       setError(0);
-      navigation.navigate('Quiz', {name: name});
-
-      await DataStore.save(
-        new USER({
-          name: name,
-          score: 0.0,
-          numberCorrect: 0,
-          time: 0,
-          nameImage: characterIndex,
-        }),
-      );
+      navigation.navigate('Quiz', {name: name, characterIndex: characterIndex});
     }
   };
 

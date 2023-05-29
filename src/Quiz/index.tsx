@@ -219,7 +219,21 @@ interface Params {
 }
 
 const Index = ({navigation, route}: Props) => {
-  const name = route.params?.name;
+  const {name, characterIndex} = route.params;
+  useEffect(() => {
+    async function saveDb() {
+      await DataStore.save(
+        new USER({
+          name: name,
+          score: 0.0,
+          numberCorrect: 0,
+          time: 0,
+          nameImage: characterIndex,
+        }),
+      );
+    }
+    saveDb();
+  }, []);
   const alarm = useRef<RiveRef>(null);
   const gift = useRef<RiveRef>(null);
   const character = useRef<RiveRef>(null);

@@ -22,6 +22,7 @@ import {LIST_CHARACTER} from '../ChooseCharacter/ChooseCharacter';
 const {width: WC, height: HC} = Dimensions.get('screen');
 
 type Props = NativeStackScreenProps<StackParamList, 'Result'>;
+
 const Index = ({route, navigation}: Props) => {
   const [user, setUser] = useState<any>();
   const [listUser, setListUser] = useState<any[]>([]);
@@ -30,14 +31,11 @@ const Index = ({route, navigation}: Props) => {
   useEffect(() => {
     const getUser = async () => {
       const user = await DataStore.query(USER);
-      user.sort((a, b) => {
-        if (a.score && b.score && a.time && b.time) {
-          if (a.score < b.score) return 1;
-          if (a.score === b.score) {
-            if (a.time > b.time) {
-              return 1;
-            }
-            return -1;
+      user.sort((a: any, b: any) => {
+        if (a.score < b.score) return 1;
+        if (a.score === b.score) {
+          if (a.time > b.time) {
+            return 1;
           }
           return -1;
         }
@@ -50,23 +48,20 @@ const Index = ({route, navigation}: Props) => {
     };
     getUser();
   }, []);
-
   useEffect(() => {
     DataStore.observe(USER).subscribe(async () => {
       const user = await DataStore.query(USER);
-      user.sort((a, b) => {
-        if (a.score && b.score && a.time && b.time) {
-          if (a.score < b.score) return 1;
-          if (a.score === b.score) {
-            if (a.time > b.time) {
-              return 1;
-            }
-            return -1;
+      user.sort((a: any, b: any) => {
+        if (a.score < b.score) return 1;
+        if (a.score === b.score) {
+          if (a.time > b.time) {
+            return 1;
           }
           return -1;
         }
         return -1;
       });
+
       let rankCurrentUser = user.findIndex(u => u.name === name);
       setRankCurrentUser(rankCurrentUser + 1);
       setListUser([...user]);
@@ -129,14 +124,14 @@ const Index = ({route, navigation}: Props) => {
             backgroundColor: 'hsl(0,90%,75%)',
             padding: 1,
             marginTop: 15,
-            //gap: 1,
+            gap: 1,
           }}>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              //gap: 1,
+              gap: 1,
             }}>
             <View
               style={{
@@ -212,7 +207,7 @@ const Index = ({route, navigation}: Props) => {
               flexDirection: 'row',
               alignItems: 'center',
               justifyContent: 'space-between',
-              //gap: 1,
+              gap: 1,
               width: '100%',
             }}>
             <View

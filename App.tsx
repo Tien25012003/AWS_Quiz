@@ -1,8 +1,8 @@
-import {View, Text, StatusBar} from 'react-native';
-import React, {useState} from 'react';
+import {View, StatusBar, LogBox} from 'react-native';
+import React from 'react';
 import Navigation from './src/Navigation/Navigation';
 const App = () => {
-  const [openRating, setOpenRating] = useState(true);
+  LogBox.ignoreAllLogs();
   return (
     <View
       style={{

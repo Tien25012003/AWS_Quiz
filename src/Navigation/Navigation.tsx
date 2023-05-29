@@ -2,8 +2,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {NavigationContainer} from '@react-navigation/native';
 import SignUp from '../Authentication/SignUp';
 import InitialScreen from '../Authentication/InitialScreen';
-import Quiz from '../Quiz/Index';
-import Home from '../Home/Index';
+import Quiz from '../Quiz/index';
+import Home from '../Home/index';
 import Result from '../Result/Index';
 import ChooseCharacter from '../ChooseCharacter/ChooseCharacter';
 export type StackParamList = {
@@ -11,7 +11,7 @@ export type StackParamList = {
   SignUp: undefined;
   Rating: {setOpenRating: Function; openRating: boolean}; // undefined because you aren't passing any params to the home screen
   Home: undefined;
-  Quiz: {name: string};
+  Quiz: {name: string; characterIndex: number};
   Result: {name: string};
   ChooseCharacter: undefined;
 };
@@ -22,7 +22,7 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{headerShown: false}}
-        initialRouteName="InitialScreen">
+        initialRouteName="Home">
         <Stack.Screen name={'InitialScreen'} component={InitialScreen} />
         <Stack.Screen name={'SignUp'} component={SignUp} />
         <Stack.Screen name={'ChooseCharacter'} component={ChooseCharacter} />
