@@ -10,6 +10,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {StackParamList} from '../Navigation/Navigation';
+import {DataStore} from 'aws-amplify';
 const {width: WD} = Dimensions.get('screen');
 type Props = NativeStackScreenProps<StackParamList, 'Home'>;
 
@@ -65,6 +66,7 @@ const Index = ({navigation, route}: Props) => {
     };
   });
   const handlePlay = () => {
+    DataStore.clear();
     animatedViewHeight.value = withTiming(55);
     animatedViewWidth.value = withTiming(55);
     animatedViewRadius.value = withTiming(60);

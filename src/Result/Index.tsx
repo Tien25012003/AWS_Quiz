@@ -49,6 +49,7 @@ const Index = ({route, navigation}: Props) => {
     getUser();
   }, []);
   useEffect(() => {
+    setListUser([]);
     DataStore.observe(USER).subscribe(async () => {
       const user = await DataStore.query(USER);
       user.sort((a: any, b: any) => {
